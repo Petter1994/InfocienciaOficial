@@ -1,5 +1,6 @@
 "use client";
 import { useState } from 'react'
+import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,6 +56,7 @@ type Props = {
 }
 
 const BlogItem = (props: Props) => {
+  const { data: session, status } = useSession();
   const post = props.post
 
   console.log('Post', post)
@@ -122,17 +124,31 @@ const BlogItem = (props: Props) => {
               }
             </Stack>
 
-            <div className='justify-end flex'>
-              <Tooltip title="Eliminar" placement="top">
-                <Button size="small" endIcon={<DeleteIcon />} color="error" onClick={handleOpenModalDelete}></Button>
-              </Tooltip>
+
+            {
+              status === "loading" ?
+                <>
+                </>
+                :
+                <>
+                  {
+                    session?.user && session.user.role === 'ADMIN' &&
+                    <div className='justify-end flex'>
+                      <Tooltip title="Eliminar" placement="top">
+                        <Button size="small" endIcon={<DeleteIcon />} color="error" onClick={handleOpenModalDelete}></Button>
+                      </Tooltip>
 
 
-              <Tooltip title="Editar" placement="top">
-                <Button size="small" endIcon={<EditIcon />} onClick={handleOpenModalEdit}></Button>
-              </Tooltip>
+                      <Tooltip title="Editar" placement="top">
+                        <Button size="small" endIcon={<EditIcon />} onClick={handleOpenModalEdit}></Button>
+                      </Tooltip>
 
-            </div>
+                    </div>
+                  }
+                </>
+            }
+
+
 
           </div>
         </div>
@@ -155,7 +171,7 @@ const BlogItem = (props: Props) => {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
           </Typography>
-          <EditPostForm onClose={handleCloseModalEdit} mutate={props.mutate} post={post} centers={props.centers}/>
+          <EditPostForm onClose={handleCloseModalEdit} mutate={props.mutate} post={post} centers={props.centers} />
         </Box>
       </Modal>
 

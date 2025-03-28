@@ -20,6 +20,7 @@ export type PostFull = {
   createdAt: Date;
   updatedAt: Date;
   thumbnail?: string;
+  content?: string
 };
 
 
