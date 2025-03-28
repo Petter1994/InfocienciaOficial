@@ -1,25 +1,19 @@
 "use client";
-
+import { useSession } from "next-auth/react";
 import { useState } from 'react'
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Center, CenterPayload } from '@/types/center'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import { Center } from '@/types/center'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import EditCenterForm from '@/components/Center/Form/EditCenterForm'
 import DeleteCenterForm from '@/components/Center/Form/DeleteCenterForm'
-
+import LoadingFull from '@/components/Loading/LoadingFull'
 
 type Props = {
   center: Center
@@ -51,6 +45,7 @@ const styleDelete = {
 };
 
 const CenterItem = (props: Props) => {
+  const { data: session, status } = useSession();
   const center = props.center
 
 
@@ -93,25 +88,34 @@ const CenterItem = (props: Props) => {
 
             </h3>
 
-        
+
             <p className="line-clamp-3">{center.area}</p>
             <p className="line-clamp-3">{center.grade}</p>
             <div className="mt-3">
 
 
+              {
+                status === "loading" ?
+                  <>
+                  </>
+                  :
+                  <>
+                    {
+                      session?.user && session.user.role === 'ADMIN' &&
+                      <div className='justify-end flex'>
+                        <Tooltip title="Eliminar" placement="top">
+                          <Button size="small" endIcon={<DeleteIcon />} color="error" onClick={handleOpenModalDelete}></Button>
+                        </Tooltip>
 
 
-              <div className='justify-end flex'>
-                <Tooltip title="Eliminar" placement="top">
-                  <Button size="small" endIcon={<DeleteIcon />} color="error" onClick={handleOpenModalDelete}></Button>
-                </Tooltip>
+                        <Tooltip title="Editar" placement="top">
+                          <Button size="small" endIcon={<EditIcon />} onClick={handleOpenModalEdit}></Button>
+                        </Tooltip>
 
-
-                <Tooltip title="Editar" placement="top">
-                  <Button size="small" endIcon={<EditIcon />} onClick={handleOpenModalEdit}></Button>
-                </Tooltip>
-
-              </div>
+                      </div>
+                    }
+                  </>
+              }
 
             </div>
           </div>
