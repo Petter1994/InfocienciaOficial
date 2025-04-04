@@ -65,7 +65,7 @@ const CTA = () => {
                   href="/auth/signup"
                   className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-black"
                 >
-                 Refistrarse
+                 Registrarse
                   <Image
                     width={20}
                     height={20}

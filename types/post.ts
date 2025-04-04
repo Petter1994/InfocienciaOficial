@@ -1,3 +1,5 @@
+import {Comment} from '@/types/comment'
+
 export type Post = {
   id: number;
   title: string;
@@ -20,7 +22,8 @@ export type PostFull = {
   createdAt: Date;
   updatedAt: Date;
   thumbnail?: string;
-  content?: string
+  content?: string;
+  comments: Comment[]
 };
 
 
@@ -51,5 +54,6 @@ export const emptyPostFull: PostFull = {
   date: new Date,
   tags:'',
   createdAt: new Date,
-  updatedAt: new Date
+  updatedAt: new Date,
+  comments:[]
 }

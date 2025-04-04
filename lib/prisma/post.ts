@@ -91,19 +91,25 @@ export async function updatePost(id: number, post: PostPayload) {
 
 export async function getById(id: number) {
     try {
+        const postFromDb = await prisma.post.findUnique({
+            where: { id },
+            include: {
+                comments: {
+                    include: {
+                        author: true  // Incluye el objeto User completo
+                    }
+                },
+                center: true
+            }
+        });
 
-        const postFromDb: Post | null = await prisma.post.findUnique(
-            {
-                where: { id },
-            },
-        )
         if (!postFromDb) {
-            return { error: { code: 404 }, message: "not found", ok: false }
+            return { error: { code: 404 }, message: "not found", ok: false };
         }
 
-        return { post: postFromDb, ok: true }
+        return { post: postFromDb, ok: true };
     } catch (error: any) {
-        return { error, message: error.message, ok: false }
+        return { error, message: error.message, ok: false };
     }
 }
 

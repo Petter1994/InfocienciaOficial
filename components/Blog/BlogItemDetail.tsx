@@ -1,17 +1,19 @@
 
 'use client'
-import RelatedPost from "@/components/Blog/RelatedPost";
-import SharePost from "@/components/Blog/SharePost";
 import Image from "next/image";
 import { PostFull } from '@/types/post'
 import { normalizeDate } from '@/utils/date'
-
+import CommentBox from '@/components/Comment/CommentBox'
+import { useSession } from "next-auth/react";
+import Loading from '@/components/Loading/Loading'
 
 type Props = {
     post: PostFull
+    mutate: () => Promise<any>
 }
 
-export default function BlogItemDetail({ post }: Props) {
+export default function BlogItemDetail({ post, mutate }: Props) {
+    const { data: session, status } = useSession();
     console.log('POS', post)
 
 
@@ -55,7 +57,7 @@ export default function BlogItemDetail({ post }: Props) {
                                 </ul>
 
                                 <div className="blog-details">
-        
+
                                     <h3 className="pt-8">
                                         {post ? post.title : ""}
                                     </h3>
@@ -65,12 +67,27 @@ export default function BlogItemDetail({ post }: Props) {
                                     </p>
                                 </div>
 
-                                
                             </div>
+
+                            {
+                                status === "loading" ?
+                                    <>
+                                        <Loading />
+                                    </>
+                                    :
+                                    <>
+                                     <CommentBox mutate={mutate} post={post} user={session?.user} />
+                                    </>
+                            }
+
+
+                           
+
+
                         </div>
                     </div>
 
-                  
+
                 </div>
 
 

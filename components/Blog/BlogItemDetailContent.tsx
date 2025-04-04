@@ -22,7 +22,7 @@ export default function BlogItemDetailContent({ postId }: Props) {
     return (
         <>
             <Suspense fallback={<h1>LOADING</h1>}>
-                <BlogItemDetail post={post} />
+                <BlogItemDetail post={post} mutate={mutate} />
             </Suspense>
         </>
     )
