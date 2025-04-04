@@ -19,6 +19,8 @@ import { Centers } from '@/data/center'
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { createCenter } from '@/lib/request/center';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import FullDrop from "@/components/DropZone/FullDrop"
 
 type FormData = {
     name: string;
@@ -60,6 +62,9 @@ export default function AddCenterForm(props: Props) {
     const [formData, setFormData] = useState<FormData>(emptyFormData);
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [chips, setChips] = useState<string[]>([])
+    const [uploadedUrl, setUploadedUrl] = useState('');
+    const [isUploading, setIsUploading] = useState(false);
+    const [file, setFile] = useState(null)
 
 
 
@@ -109,7 +114,7 @@ export default function AddCenterForm(props: Props) {
                 name: formData.name,
                 area: formData.area,
                 grade: formData.grade,
-                logo: formData.logo,
+                logo: uploadedUrl,
             }
 
             console.log('Payload FRONT', payload);
@@ -134,11 +139,79 @@ export default function AddCenterForm(props: Props) {
 
 
 
+    const handleFileUpload = async (file) => {
+        if (!file) return;
+
+        setIsUploading(true);
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'infociencia');
+
+            const response = await fetch(
+                `https://api.cloudinary.com/v1_1/dxv5i7vir/image/upload`,
+                { method: 'POST', body: formData }
+            );
+
+            if (!response.ok) throw new Error('Upload failed');
+
+            const data = await response.json();
+            setUploadedUrl(data.secure_url);
+            return data.secure_url; // Devuelve la URL para el componente hijo
+        } catch (error) {
+            console.error('Error:', error);
+            throw error; // Propaga el error para que el hijo lo maneje
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+
+
+
+
 
     return (
         <>
             <form noValidate onSubmit={handleSubmit}>
                 <div className="w-full grid cols-1 gap-4 mt-5">
+                    <div className='flex w-full mx-auto justify-center'>
+                        <FullDrop
+                            onUpload={handleFileUpload}
+                            isUploading={isUploading}
+            
+                        />
+
+                        {/* Resultado */}
+                        {uploadedUrl && (
+                            <div className=''>
+                                <h4>Imagen subida:</h4>
+                                <img
+                                    src={uploadedUrl}
+                                    alt="Preview"
+                                    style={{ maxWidth: '300px', border: '1px solid #ddd' }}
+                                />
+                                <div className='mt-4'>
+                                    <a href={uploadedUrl} target="_blank" rel="noopener">
+                                        <Button
+                                            fullWidth
+                                            variant="contained"
+
+
+                                            startIcon={<RemoveRedEyeOutlinedIcon />}
+                                        >
+                                            Ver imagen completa
+                                        </Button>
+
+                                    </a>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+
+
                     <TextField
                         required
                         id="name"
@@ -159,7 +232,7 @@ export default function AddCenterForm(props: Props) {
                         error={errors.area !== ""}
                         helperText={errors.area}
                         onFocus={cleanErrors}
-                   />
+                    />
 
 
                     <TextField

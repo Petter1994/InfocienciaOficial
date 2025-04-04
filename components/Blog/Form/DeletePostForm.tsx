@@ -26,17 +26,8 @@ export default function DeletePostForm(props: Props) {
     const post = props.post
     const { enqueueSnackbar } = useSnackbar()
 
-    const [deleteString, setDeleteString] = useState<string>('')
+    
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
-
-
-
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { value } = event.target;
-        setDeleteString(value)
-    }
 
     const handleSubmit = async () => {
         setIsLoading(true)
@@ -67,25 +58,14 @@ export default function DeletePostForm(props: Props) {
     return (
         <>
             <form noValidate onSubmit={handleSubmit}>
-                <div className="w-full grid cols-1 gap-4 mt-5">
-                    <TextField
-                        required
-                        id="title"
-                        name="title"
-                        label="Titulo"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                        error={deleteString !== "" && deleteString !== 'DELETE'}
-                        helperText="Por Favor Escriba DELETE"
-                    />
-                </div>
-
+                
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
                     <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error'>
                         Cancelar
                     </Button>
 
                     <Button
-                        disabled={deleteString !== "DELETE"}
+                       
                         variant="contained"
                         endIcon={<DeleteForeverIcon />}
                         onClick={handleSubmit}
