@@ -166,7 +166,9 @@ export default function AddCenterForm(props: Props) {
                         required
                         id="grade"
                         name="grade"
-                        label="Grado"
+                        label="Descripción"
+                        multiline
+                        rows={5}
                         onFocus={cleanErrors}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                     />
