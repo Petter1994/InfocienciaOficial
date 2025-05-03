@@ -11,6 +11,7 @@ export type Post = {
   date: Date;
   tags: string;
   thumbnail?: string;
+  center: number
 };
 
 export type PostFull = {
@@ -28,6 +29,7 @@ export type PostFull = {
   thumbnail?: string;
   content?: string;
   comments: Comment[]
+  center: number
 };
 
 
@@ -49,7 +51,8 @@ export const emptyPost: Post = {
   author: "",
   body: "",
   date: new Date,
-  tags:''
+  tags:'',
+  center:9999
 }
 
 export const emptyPostFull: PostFull = {
@@ -61,5 +64,6 @@ export const emptyPostFull: PostFull = {
   tags:'',
   createdAt: new Date,
   updatedAt: new Date,
-  comments:[]
+  comments:[],
+  center:9999
 }

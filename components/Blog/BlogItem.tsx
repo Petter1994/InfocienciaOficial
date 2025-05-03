@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
+import Divider from '@mui/material/Divider';
 
 import EditPostForm from '@/components/Blog/Form/EditPostForm'
 import DeletePostForm from '@/components/Blog/Form/DeletePostForm'
@@ -22,8 +23,10 @@ import {
   Chip,
   Box,
   Button,
-  Typography
+  Typography, Dialog, DialogTitle, IconButton, DialogContent
 } from '@mui/material';
+import {Close} from "@mui/icons-material";
+import AddPostForm from "@/components/Blog/Form/AddPostForm";
 
 const style = {
   position: 'absolute',
@@ -103,11 +106,15 @@ const BlogItem = (props: Props) => {
             </Link>
           </h3>
 
+
           <div className=''>
             <h3 className="mb-1 mt-7.5  text-lg font-medium text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary xl:text-itemtitle2">
               {post.author}
             </h3>
             <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
+              {post.description}
+            </p>
+            <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary mt-2">
               {normalizeDate(post.createdAt)}
             </p>
           </div>
@@ -115,39 +122,45 @@ const BlogItem = (props: Props) => {
           <div className="mt-3">
 
 
+            {
+                post.tags && post.tags.length > 0 &&
+                <Stack direction="row" spacing={1}>
+                  {
+                    post.tags.split(',').map((tag, key) => (
+                        <Chip key={key} label={`#${tag}`} variant="outlined" className="dark:text-white"/>
+                    ))
+                  }
+                </Stack>
+            }
 
-            <Stack direction="row" spacing={1}>
-              {
-                post.tags.split(',').map((tag, key) => (
-                  <Chip key={key} label={`#${tag}`} variant="outlined" className="dark:text-white" />
-                ))
-              }
-            </Stack>
+            <br className='border-4'></br>
+
+            <Divider/>
 
 
             {
               status === "loading" ?
-                <>
-                </>
-                :
-                <>
-                  {
-                    session?.user && session.user.role === 'ADMIN' &&
-                    <div className='justify-end flex'>
-                      <Tooltip title="Eliminar" placement="top">
-                        <Button size="small" endIcon={<DeleteIcon />} color="error" onClick={handleOpenModalDelete}></Button>
-                      </Tooltip>
+                  <>
+                  </>
+                  :
+                  <>
+                    {
+                        session?.user && session.user.role === 'ADMIN' &&
+                        <div className='justify-end flex mt-1'>
+                          <Tooltip title="Eliminar" placement="top">
+                            <Button size="small" endIcon={<DeleteIcon/>} color="error"
+                                    onClick={handleOpenModalDelete}></Button>
+                          </Tooltip>
 
 
-                      <Tooltip title="Editar" placement="top">
-                        <Button size="small" endIcon={<EditIcon />} onClick={handleOpenModalEdit}></Button>
-                      </Tooltip>
+                          <Tooltip title="Editar" placement="top">
+                            <Button size="small" endIcon={<EditIcon/>} onClick={handleOpenModalEdit}></Button>
+                          </Tooltip>
 
-                    </div>
-                  }
-                </>
+                        </div>
+                    }
+                  </>
             }
-
 
 
           </div>
@@ -155,25 +168,24 @@ const BlogItem = (props: Props) => {
       </motion.div>
 
 
-
-
-
-      <Modal
-        open={openModalEdit}
-        onClose={handleCloseModalEdit}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+      <Dialog
+          fullScreen
+          open={openModalEdit}
+          onClose={handleCloseModalEdit}
+          aria-labelledby="fullscreen-upload-dialog"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center'>
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center mx-auto'>
             Editar Articulo
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-
-          </Typography>
+          <IconButton edge="end" color="inherit" onClick={handleCloseModalEdit}>
+            <Close />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <EditPostForm onClose={handleCloseModalEdit} mutate={props.mutate} post={post} centers={props.centers} />
-        </Box>
-      </Modal>
+        </DialogContent>
+      </Dialog>
 
 
       <Modal

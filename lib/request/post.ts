@@ -76,6 +76,7 @@ export async function createPost(payload: PostPayload) {
 }
 
 
+
 export async function editPost(payload: PostPayload, id: number) {
     console.log('REQUEST PAY', payload)
     if (payload) {

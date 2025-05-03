@@ -131,23 +131,25 @@ export default function AddPostForm(props: Props) {
     const validateForm = () => {
         const newErrors: FormErrors = {};
 
-
-        if (formData.title === "") {
-            newErrors.title = 'Titulo requerido';
-        }
-
-        if (selectedCenter === "") {
-            newErrors.center = 'Centro requerido';
-        }
+        console.log('Form Data', formData)
 
 
-        if (formData.authors === "") {
-            newErrors.authors = 'Autor requerido';
-        }
-
-        if (formData.body === "") {
-            newErrors.body = 'Cuerpo requerido';
-        }
+        // if (formData.title === "") {
+        //     newErrors.title = 'Titulo requerido';
+        // }
+        //
+        // if (selectedCenter === "") {
+        //     newErrors.center = 'Centro requerido';
+        // }
+        //
+        //
+        // if (formData.authors === "") {
+        //     newErrors.authors = 'Autor requerido';
+        // }
+        //
+        // if (formData.body === "") {
+        //     newErrors.body = 'Cuerpo requerido';
+        // }
 
         if (Object.keys(newErrors).length === 0) {
             return true
@@ -174,7 +176,7 @@ export default function AddPostForm(props: Props) {
                 date: new Date,
                 tags: formData.tags,
                 center: Number(selectedCenter),
-                coverImage: uploadedUrl,
+                coverImage: uploadedUrl!=="" ? uploadedUrl : defaultImg,
                 description: formData.description ? formData.description : '',
                 url: formData.url ? formData.url : ''
             }
@@ -201,7 +203,7 @@ export default function AddPostForm(props: Props) {
     return (
         <>
             <form noValidate onSubmit={handleSubmit}>
-                <div className=" grid cols-1 gap-4 mt-5 w-[800]">
+                <div className="grid cols-1 gap-4 mt-5 min-w-[800px]">
 
 
                     <TextField
@@ -209,7 +211,7 @@ export default function AddPostForm(props: Props) {
                         id="title"
                         name="title"
                         label="Titulo"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         error={errors.title !== ""}
                         helperText={errors.title}
                         onFocus={cleanErrors}
@@ -220,7 +222,7 @@ export default function AddPostForm(props: Props) {
                         id="authors"
                         name="authors"
                         label="Autores"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         error={errors.authors !== ""}
                         helperText={errors.authors}
                         onFocus={cleanErrors}
@@ -281,6 +283,7 @@ export default function AddPostForm(props: Props) {
                         )}
                     </div>
 
+                    <p>Descripción:</p>
                     <TextareaAutosize
                         required
                         aria-label="Descripcion del Articulo"
@@ -288,15 +291,16 @@ export default function AddPostForm(props: Props) {
                         placeholder="Escriba una breve descripción de su articulo"
                         id='description'
                         name='description'
-                        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange(event)}
+                        onChange={(event: ChangeEvent<HTMLTextAreaElement>) => handleInputChange(event)}
                         onFocus={cleanErrors}
+                        style={{border: 'solid 2px', padding: 5}}
                     />
 
                     <TextField
                         id="url"
                         name="url"
                         label="Url de su Articulo"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         onFocus={cleanErrors}
                     />
 
@@ -304,7 +308,7 @@ export default function AddPostForm(props: Props) {
                         id="tags"
                         name="tags"
                         label="Etiqueta"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         onFocus={cleanErrors}
                     />
 
