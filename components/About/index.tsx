@@ -23,6 +23,7 @@ const About = () => {
                 },
               }}
               initial="hidden"
+            
               whileInView="visible"
               transition={{ duration: 0.5, delay: 0.1 }}
               viewport={{ once: true }}
