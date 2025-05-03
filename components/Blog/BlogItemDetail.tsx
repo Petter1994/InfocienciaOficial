@@ -14,7 +14,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import ReplyIcon from '@mui/icons-material/Reply';
 import {GenericResponse} from "@/types/response";
 import {editPost} from "@/lib/request/post";
-import { useSnackbar } from 'notistack';
+import {useSnackbar} from 'notistack';
 
 type Props = {
     post: PostFull
@@ -22,7 +22,7 @@ type Props = {
 }
 
 export default function BlogItemDetail({post, mutate}: Props) {
-    const { enqueueSnackbar } = useSnackbar()
+    const {enqueueSnackbar} = useSnackbar()
     const {data: session, status} = useSession();
 
     const isAdmin = session?.user && session.user.role === 'ADMIN'
@@ -30,7 +30,7 @@ export default function BlogItemDetail({post, mutate}: Props) {
     const [postContent, setPostContent] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const  handleSave = async () => {
+    const handleSave = async () => {
         setIsLoading(true)
         const payload: PostPayload = {
             title: post.title,
@@ -47,10 +47,10 @@ export default function BlogItemDetail({post, mutate}: Props) {
         console.log('RES FRONT', res)
 
         if (res.status_name === 'error') {
-            enqueueSnackbar(res.error_title, { variant: 'error' })
+            enqueueSnackbar(res.error_title, {variant: 'error'})
 
         } else {
-            enqueueSnackbar('Artículo Salvado', { variant: 'success' });
+            enqueueSnackbar('Artículo Salvado', {variant: 'success'});
         }
         setIsLoading(false)
 
@@ -108,6 +108,15 @@ export default function BlogItemDetail({post, mutate}: Props) {
                                             Publicado: {post ? normalizeDate(post.createdAt) : ""}
                                         </span>{" "}
                                     </li>
+                                    {
+                                        post.url &&
+                                        <li>
+                                        <span className="text-black dark:text-white">
+                                            Url:
+                                        </span><Link href={post.url ? post.url : "#"}>{post.url}</Link>
+                                        </li>
+                                    }
+
                                 </ul>
 
                                 <div className="blog-details">
@@ -121,7 +130,7 @@ export default function BlogItemDetail({post, mutate}: Props) {
 
 
                                     {
-                                        isAdmin && postContent!=="" &&
+                                        isAdmin && postContent !== "" &&
 
                                         <div className='justify-end flex'>
                                             <Tooltip title="Guardar" placement="top">
