@@ -4,6 +4,8 @@ export type Post = {
   id: number;
   title: string;
   body: string;
+  description?: string;
+  url?: string;
   author: string;
   coverImage?: string;
   date: Date;
@@ -17,6 +19,8 @@ export type PostFull = {
   body: string;
   author: string;
   coverImage?: string;
+  description?: string;
+  url?: string;
   date: Date;
   tags: string;
   createdAt: Date;
@@ -32,6 +36,8 @@ export type PostPayload = {
   body: string;
   author: string;
   coverImage?: string;
+  description?: string;
+  url?: string;
   date: Date;
   tags: string
   center: number

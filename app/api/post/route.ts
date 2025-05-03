@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {createPost, getAll} from "@/lib/prisma/post";
-import {Post} from "@/type/post";
+import {Post} from "@/types/post";
 import { PostPayload } from "@/types/post";
 
 
@@ -44,7 +44,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
     try {
-        let postData: Post = await request.json()
+        let postData: PostPayload = await request.json()
         const result = await createPost(postData)
         return result.ok ? NextResponse.json(
             {

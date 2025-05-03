@@ -185,7 +185,7 @@ export default function AddCenterForm(props: Props) {
 
                         {/* Resultado */}
                         {uploadedUrl && (
-                            <div className=''>
+                            <div className='ml-5'>
                                 <h4>Imagen subida:</h4>
                                 <img
                                     src={uploadedUrl}

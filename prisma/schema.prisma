@@ -32,19 +32,21 @@ model User {
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  title     String    @db.VarChar(255)
-  content   String?
-  thumbnail String?
-  tags      String?
-  author    String?   
-  comments  Comment[]
-  center    Center    @relation(fields: [centerId], references: [id], onDelete: Cascade)
-  centerId  Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  text      String
-  html      String?
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  content     String?
+  description String?
+  thumbnail   String?
+  tags        String?
+  author      String?
+  url         String?
+  comments    Comment[]
+  center      Center    @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  centerId    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  text        String
+  html        String?
 }
 
 model Comment {
@@ -58,15 +60,26 @@ model Comment {
   updatedAt DateTime @updatedAt
 }
 
-
 model Center {
+  id        Int      @id @default(autoincrement())
+  name      String
+  area      String?
+  grade     String?
+  logo      String?
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Event {
   id          Int      @id @default(autoincrement())
   name        String
-  area       String?
-  grade       String?
+  area        String?
+  description String
+  host        String
   logo        String?
-  posts       Post[] 
+  dateStart   DateTime @default(now())
+  dateEnd     DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
-

@@ -1,21 +1,28 @@
 'use client'
-import { useState, ChangeEvent } from 'react'
-import { useSnackbar } from 'notistack';
-import { PostPayload } from '@/types/post'
-import { GenericResponse } from '@/types/response'
-import { createPost } from '@/lib/request/post'
+import {useState, ChangeEvent} from 'react'
+import {useSnackbar} from 'notistack';
+import {PostPayload} from '@/types/post'
+import {GenericResponse} from '@/types/response'
+import {createPost} from '@/lib/request/post'
 
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import {TextField,TextareaAutosize,Button,FormControl,InputLabel,MenuItem,FormHelperText,Select} from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select';
-import { Center } from '@/types/center'
+import {
+    TextField,
+    TextareaAutosize,
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    FormHelperText,
+    Select
+} from '@mui/material';
+import {SelectChangeEvent} from '@mui/material/Select';
+import {Center} from '@/types/center'
 import FullDrop from "@/components/DropZone/FullDrop"
 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-
-
 
 
 type FormData = {
@@ -24,6 +31,8 @@ type FormData = {
     authors: string
     coverImage: string | null
     tags: string
+    description: string | null
+    url: string | null
 }
 
 type FormErrors = {
@@ -45,7 +54,9 @@ const emptyFormData: FormData = {
     body: '',
     authors: '',
     coverImage: null,
-    tags: ''
+    tags: '',
+    description: '',
+    url: ''
 }
 
 type Props = {
@@ -55,9 +66,8 @@ type Props = {
 }
 
 
-
 export default function AddPostForm(props: Props) {
-    const { enqueueSnackbar } = useSnackbar()
+    const {enqueueSnackbar} = useSnackbar()
     const defaultImg = '/images/blog/blog-01.png'
 
     const [errors, setErrors] = useState<FormErrors>(emptyFormError)
@@ -73,17 +83,14 @@ export default function AddPostForm(props: Props) {
     const [file, setFile] = useState(null)
 
 
-
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
 
         setFormData({
             ...formData,
             [name]: value
         });
     }
-
-
 
 
     const handleFileUpload = async (file) => {
@@ -98,7 +105,7 @@ export default function AddPostForm(props: Props) {
 
             const response = await fetch(
                 `https://api.cloudinary.com/v1_1/dxv5i7vir/image/upload`,
-                { method: 'POST', body: formData }
+                {method: 'POST', body: formData}
             );
 
             if (!response.ok) throw new Error('Upload failed');
@@ -115,12 +122,10 @@ export default function AddPostForm(props: Props) {
     };
 
 
-
     const handleChangeCenter = (event: SelectChangeEvent) => {
-        const { value } = event.target;
+        const {value} = event.target;
         setSelectedCenter(value)
     }
-
 
 
     const validateForm = () => {
@@ -164,12 +169,14 @@ export default function AddPostForm(props: Props) {
 
             const payload: PostPayload = {
                 title: formData.title,
-                body: formData.body,
+                body: '',
                 author: formData.authors,
                 date: new Date,
                 tags: formData.tags,
                 center: Number(selectedCenter),
-                coverImage: uploadedUrl
+                coverImage: uploadedUrl,
+                description: formData.description ? formData.description : '',
+                url: formData.url ? formData.url : ''
             }
 
             console.log('Payload FRONT', payload);
@@ -178,10 +185,10 @@ export default function AddPostForm(props: Props) {
             console.log('RES FRONT', res)
 
             if (res.status_name === 'error') {
-                enqueueSnackbar(res.error_title, { variant: 'error' })
+                enqueueSnackbar(res.error_title, {variant: 'error'})
 
             } else {
-                enqueueSnackbar(res.status_message, { variant: 'success' });
+                enqueueSnackbar(res.status_message, {variant: 'success'});
                 props.mutate && await props.mutate()
                 props.onClose && props.onClose()
             }
@@ -191,14 +198,10 @@ export default function AddPostForm(props: Props) {
     };
 
 
-
-
-
     return (
         <>
             <form noValidate onSubmit={handleSubmit}>
                 <div className=" grid cols-1 gap-4 mt-5 w-[800]">
-
 
 
                     <TextField
@@ -258,20 +261,20 @@ export default function AddPostForm(props: Props) {
                                 <img
                                     src={uploadedUrl}
                                     alt="Preview"
-                                    style={{ maxWidth: '300px', border: '1px solid #ddd' }}
+                                    style={{maxWidth: '300px', border: '1px solid #ddd'}}
                                 />
                                 <div className='mt-4'>
                                     <a href={uploadedUrl} target="_blank" rel="noopener">
                                         <Button
                                             fullWidth
                                             variant="contained"
-                                    
-                                            
-                                            startIcon={<RemoveRedEyeOutlinedIcon />}
+
+
+                                            startIcon={<RemoveRedEyeOutlinedIcon/>}
                                         >
                                             Ver imagen completa
                                         </Button>
-                                        
+
                                     </a>
                                 </div>
                             </div>
@@ -280,12 +283,20 @@ export default function AddPostForm(props: Props) {
 
                     <TextareaAutosize
                         required
-                        aria-label="Cuerpo del Articulo"
+                        aria-label="Descripcion del Articulo"
                         minRows={10}
-                        placeholder="Escriba su articulo aqui"
-                        id='body'
-                        name='body'
+                        placeholder="Escriba una breve descripción de su articulo"
+                        id='description'
+                        name='description'
                         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange(event)}
+                        onFocus={cleanErrors}
+                    />
+
+                    <TextField
+                        id="url"
+                        name="url"
+                        label="Url de su Articulo"
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         onFocus={cleanErrors}
                     />
 
@@ -301,14 +312,13 @@ export default function AddPostForm(props: Props) {
                 </div>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error'>
+                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'>
                         Cancelar
                     </Button>
 
-                    <Button variant="contained" endIcon={<AddCircleIcon />} onClick={handleSubmit}>
+                    <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleSubmit}>
                         Crear
                     </Button>
-
 
 
                 </div>
