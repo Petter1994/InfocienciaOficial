@@ -175,6 +175,8 @@ export default function EditPostForm(props: Props) {
             }
 
             console.log('Payload FRONT', payload);
+
+            //@ts-ignore
             const res: GenericResponse = await editPost(payload, post.id)
 
             console.log('RES FRONT', res)
@@ -242,14 +244,6 @@ export default function EditPostForm(props: Props) {
                         </Select>
                         <FormHelperText>{errors.center}</FormHelperText>
                     </FormControl>
-
-                    {/*{*/}
-                    {/*    post.thumbnail &&*/}
-
-                    {/*        <Image src={post.thumbnail} alt='post image'/>*/}
-
-
-                    {/*}*/}
 
 
                     <div className='flex gap-5'>

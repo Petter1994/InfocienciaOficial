@@ -182,6 +182,7 @@ export default function AddPostForm(props: Props) {
             }
 
             console.log('Payload FRONT', payload);
+            //@ts-ignore
             const res: GenericResponse = await createPost(payload)
 
             console.log('RES FRONT', res)

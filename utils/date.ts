@@ -9,12 +9,3 @@ export const normalizeDate = (date: Date) => {
 
     return `${dayFormated}-${monthFormated}-${year}`
 }
-
-export const normalizeHour = (date: Date) => {
-    const tempDate: Date = new Date(date);
-    const hour: number = tempDate.getHours()
-    const minutes: number = tempDate.getMinutes()
-    const seconds: number = tempDate.getSeconds()
-
-    return `${hour}:${minutes}:${seconds}`
-}
