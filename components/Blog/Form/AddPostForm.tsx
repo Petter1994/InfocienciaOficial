@@ -21,6 +21,7 @@ import {
 import {SelectChangeEvent} from '@mui/material/Select';
 import {Center} from '@/types/center'
 import FullDrop from "@/components/DropZone/FullDrop"
+import {isValidUrl} from '@/utils/validations'
 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
@@ -40,13 +41,15 @@ type FormErrors = {
     body?: string
     authors?: string
     center?: string
+    url?: string
 }
 
 const emptyFormError: FormErrors = {
     title: '',
     body: '',
     authors: '',
-    center: ''
+    center: '',
+    url:''
 }
 
 const emptyFormData: FormData = {
@@ -150,6 +153,10 @@ export default function AddPostForm(props: Props) {
         // if (formData.body === "") {
         //     newErrors.body = 'Cuerpo requerido';
         // }
+
+        if( formData.url && !isValidUrl(formData.url)){
+            newErrors.url = 'Url invalida';
+        }
 
         if (Object.keys(newErrors).length === 0) {
             return true
@@ -303,6 +310,8 @@ export default function AddPostForm(props: Props) {
                         label="Url de su Articulo"
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         onFocus={cleanErrors}
+                        error={errors.url !== ""}
+                        helperText={errors.url}
                     />
 
                     <TextField

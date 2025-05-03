@@ -108,20 +108,27 @@ const BlogItem = (props: Props) => {
 
 
           <div className=''>
-            <h3 className="mb-1 mt-7.5  text-lg font-medium text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary xl:text-itemtitle2">
-              {post.author}
-            </h3>
+            <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
+              <span className='font-bold'>Autor:</span>{post.author}
+            </p>
+            {
+                post.url  &&
+                <div className="font-small text-black">
+                  <span className='font-bold'>Url:</span> <Link href={post.url ? post.url : '#'} >{post.url}</Link>
+                </div>
+            }
+            <span className='font-small text-black font-bold'>Descripción:</span>
             <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
               {post.description}
             </p>
             <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary mt-2">
-              {normalizeDate(post.createdAt)}
+              <span className='font-bold'>Fecha:</span>{normalizeDate(post.createdAt)}
             </p>
           </div>
           <p className="line-clamp-3">{post.body}</p>
           <div className="mt-3">
 
-
+            <span className='font-small text-black font-bold'>Tags:</span>
             {
                 post.tags && post.tags.length > 0 &&
                 <Stack direction="row" spacing={1}>
