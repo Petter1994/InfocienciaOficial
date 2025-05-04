@@ -21,13 +21,14 @@ export async function createComment(postID: number, comment: CommentPayload) {
     try {
         const commentData = {
             content: comment.content,
-            postId: postID,
-            authorId: comment.authorId
+            postId: Number(postID),
+            authorId: Number(comment.authorId)
         };
 
-        console.log('commentData DATA', commentData)
+        
 
         const commentFromDb = await prisma.comment.create({ data: commentData });
+        console.log('commentFromDb DATA', commentFromDb)
         return { comment: commentFromDb, ok: true };
 
     } catch (error: any) {

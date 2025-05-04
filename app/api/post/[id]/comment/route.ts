@@ -53,6 +53,8 @@ export async function POST(request: NextRequest, {
     try {
         let commentData: Comment = await request.json()
 
+        console.log('commentData',commentData)
+
         const result = await createComment(Number(id), commentData)
         return result.ok ? NextResponse.json(
             {
