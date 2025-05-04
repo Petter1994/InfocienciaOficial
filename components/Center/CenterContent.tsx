@@ -3,8 +3,6 @@ import { useState } from 'react'
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
 import AddCenterForm from '@/components/Center/Form/AddCenterForm'
 import useSWR from 'swr'
 import { fetchAllCenter, fetchAllCenterUrl } from '@/lib/request/center'
@@ -16,7 +14,8 @@ import CenterItem from '@/components/Center/CenterItem';
 import SectionHeader from "../Common/SectionHeader";
 import LoadingFull from '@/components/Loading/LoadingFull'
 import { useSession } from "next-auth/react";
-import Loading from '@/components/Loading/Loading'
+import {Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
+import {Close} from "@mui/icons-material";
 
 const style = {
     position: 'absolute',
@@ -129,23 +128,24 @@ export default function CenterContent() {
             </section>
             {/* <!-- ===== Blog Grid End ===== --> */}
 
-
-            <Modal
+            <Dialog
+                fullScreen
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="fullscreen-upload-dialog"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center'>
+                <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center mx-auto'>
                         Adicionar Centro
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-
-                    </Typography>
+                    <IconButton edge="end" color="inherit" onClick={handleClose}>
+                        <Close />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <AddCenterForm onClose={handleClose} mutate={mutate} />
-                </Box>
-            </Modal>
+                </DialogContent>
+            </Dialog>
         </>
 
 

@@ -1,51 +1,84 @@
 'use client'
-import { useState, FormEvent, ChangeEvent, useRef } from 'react'
-import { useSnackbar } from 'notistack';
-import { Center, CenterPayload, emptyCenter } from '@/types/center'
-import { GenericResponse } from '@/types/response'
-import { createPost } from '@/lib/request/post'
+import {useState, ChangeEvent} from 'react'
+import {useSnackbar} from 'notistack'
+import {CenterPayload} from '@/types/center'
+import {GenericResponse} from '@/types/response'
+import CancelIcon from '@mui/icons-material/Cancel'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
-import CancelIcon from '@mui/icons-material/Cancel';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import { Centers } from '@/data/center'
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import { createCenter } from '@/lib/request/center';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import {createCenter} from '@/lib/request/center'
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
 import FullDrop from "@/components/DropZone/FullDrop"
 
 type FormData = {
     name: string;
+    vision: string;
+    mission: string;
+    investigationLine: string;
+    projects: string;
+    services: string;
+    results: string;
+    strategy: string;
+    investigators: number;
+    investigatorsDoc: number;
+    investigatorsMaster: number;
+    discipline: string;
     area: string;
-    grade: string;
     logo?: string
 }
 
 type FormErrors = {
-    name?: string
-    area?: string
-    grade?: string
+    name?: string;
+    vision?: string;
+    mission?: string;
+    investigationLine?: string;
+    projects?: string;
+    services?: string;
+    results?: string;
+    strategy?: string;
+    discipline?: string;
+    area?: string;
+    logo?: string;
+    investigators?: string;
+    investigatorsDoc?: string;
+    investigatorsMaster?: string;
 }
 
 const emptyFormError: FormErrors = {
     name: '',
     area: '',
-    grade: '',
+    logo: '',
+    results: '',
+    strategy: '',
+    investigationLine: '',
+    discipline: '',
+    mission: '',
+    projects: '',
+    vision: '',
+    services: '',
+    investigators: '',
+    investigatorsDoc: '',
+    investigatorsMaster: '',
 }
 
 const emptyFormData: FormData = {
     name: '',
     area: '',
-    grade: '',
     logo: '',
+    results: '',
+    strategy: '',
+    investigationLine: '',
+    discipline: '',
+    mission: '',
+    projects: '',
+    vision: '',
+    investigators: 0,
+    investigatorsDoc: 0,
+    investigatorsMaster: 0,
+    services: ''
 }
 
 type Props = {
@@ -54,22 +87,19 @@ type Props = {
 }
 
 
-
 export default function AddCenterForm(props: Props) {
-    const { enqueueSnackbar } = useSnackbar()
+    const {enqueueSnackbar} = useSnackbar()
 
     const [errors, setErrors] = useState<FormErrors>(emptyFormError)
     const [formData, setFormData] = useState<FormData>(emptyFormData);
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [chips, setChips] = useState<string[]>([])
     const [uploadedUrl, setUploadedUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     const [file, setFile] = useState(null)
 
 
-
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
 
         setFormData({
             ...formData,
@@ -87,6 +117,40 @@ export default function AddCenterForm(props: Props) {
 
         if (formData.name === "") {
             newErrors.name = 'Nombre requerido';
+        }
+        if (formData.vision === "") {
+            newErrors.vision = 'Visión requerida';
+        }
+        if (formData.mission === "") {
+            newErrors.mission = 'Misión requerida';
+        }
+        if (formData.investigationLine === "") {
+            newErrors.investigationLine = 'Líneas de investigación requerida';
+        }
+        if (formData.projects === "") {
+            newErrors.projects = 'Proyectos requerido';
+        }
+        if (formData.services === "") {
+            newErrors.services = 'Servicios requerido';
+        }
+        if (formData.results === "") {
+            newErrors.results = 'Resultados requerido';
+        }
+        if (formData.strategy === "") {
+            newErrors.strategy = 'Estrategia requerida';
+        }
+        if (formData.investigators < 0) {
+            newErrors.investigators = 'Número Incorrecto'
+        }
+        if (formData.investigatorsDoc < 0) {
+            newErrors.investigatorsDoc = 'Número Incorrecto'
+        }
+        if (formData.investigatorsMaster < 0) {
+            newErrors.investigatorsMaster = 'Número Incorrecto'
+        }
+        if (formData.investigatorsMaster > formData.investigators || formData.investigatorsDoc > formData.investigators) {
+            newErrors.investigatorsDoc = 'Excede la cantidad de Investigadores del Centro'
+            newErrors.investigatorsMaster = 'Excede la cantidad de Investigadores del Centro'
         }
 
         if (formData.area === "") {
@@ -106,14 +170,23 @@ export default function AddCenterForm(props: Props) {
     }
 
 
-
     const handleSubmit = async () => {
         setIsLoading(true)
         if (validateForm()) {
             const payload: CenterPayload = {
                 name: formData.name,
                 area: formData.area,
-                grade: formData.grade,
+                discipline: formData.discipline,
+                investigatorsDoc: Number(formData.investigatorsDoc),
+                investigators: Number(formData.investigators),
+                investigatorsMaster: Number(formData.investigatorsMaster),
+                projects: formData.projects,
+                services: formData.services,
+                mission: formData.mission,
+                results: formData.results,
+                strategy: formData.strategy,
+                investigationLine: formData.investigationLine,
+                vision: formData.vision,
                 logo: uploadedUrl,
             }
 
@@ -123,23 +196,22 @@ export default function AddCenterForm(props: Props) {
             console.log('RES FRONT', res)
 
             if (res.status_name === 'error') {
-                enqueueSnackbar(res.error_title, { variant: 'error' })
+                enqueueSnackbar(res.error_title, {variant: 'error'})
 
             } else {
-                enqueueSnackbar(res.status_message, { variant: 'success' });
+                enqueueSnackbar(res.status_message, {variant: 'success'});
                 props.mutate && await props.mutate()
                 props.onClose && props.onClose()
             }
             setIsLoading(false)
         }
 
+
         setIsLoading(false)
     };
 
 
-
-
-    const handleFileUpload = async (file) => {
+    const handleFileUpload = async (file: any) => {
         if (!file) return;
 
         setIsUploading(true);
@@ -151,7 +223,7 @@ export default function AddCenterForm(props: Props) {
 
             const response = await fetch(
                 `https://api.cloudinary.com/v1_1/dxv5i7vir/image/upload`,
-                { method: 'POST', body: formData }
+                {method: 'POST', body: formData}
             );
 
             if (!response.ok) throw new Error('Upload failed');
@@ -168,19 +240,15 @@ export default function AddCenterForm(props: Props) {
     };
 
 
-
-
-
-
     return (
         <>
             <form noValidate onSubmit={handleSubmit}>
-                <div className="w-full grid cols-1 gap-4 mt-5">
+                <div className="w-full grid cols-1 gap-4 mt-5 min-w-[800px]">
                     <div className='flex w-full mx-auto justify-center'>
                         <FullDrop
                             onUpload={handleFileUpload}
                             isUploading={isUploading}
-            
+
                         />
 
                         {/* Resultado */}
@@ -190,7 +258,7 @@ export default function AddCenterForm(props: Props) {
                                 <img
                                     src={uploadedUrl}
                                     alt="Preview"
-                                    style={{ maxWidth: '300px', border: '1px solid #ddd' }}
+                                    style={{maxWidth: '300px', border: '1px solid #ddd'}}
                                 />
                                 <div className='mt-4'>
                                     <a href={uploadedUrl} target="_blank" rel="noopener">
@@ -199,7 +267,7 @@ export default function AddCenterForm(props: Props) {
                                             variant="contained"
 
 
-                                            startIcon={<RemoveRedEyeOutlinedIcon />}
+                                            startIcon={<RemoveRedEyeOutlinedIcon/>}
                                         >
                                             Ver imagen completa
                                         </Button>
@@ -211,49 +279,158 @@ export default function AddCenterForm(props: Props) {
                     </div>
 
 
-
-                    <TextField
-                        required
-                        id="name"
-                        name="name"
-                        label="Nombre"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                        error={errors.name !== ""}
-                        helperText={errors.name}
-                        onFocus={cleanErrors}
-                    />
-
-                    <TextField
-                        required
-                        id="area"
-                        name="area"
-                        label="Area"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                        error={errors.area !== ""}
-                        helperText={errors.area}
-                        onFocus={cleanErrors}
-                    />
+                    <div className='grid grid-cols-2 gap-5'>
 
 
-                    <TextField
-                        required
-                        id="grade"
-                        name="grade"
-                        label="Descripción"
-                        multiline
-                        rows={5}
-                        onFocus={cleanErrors}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                    />
+                        <TextField
+                            required
+                            id="name"
+                            name="name"
+                            label="Nombre"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.name !== ""}
+                            helperText={errors.name}
+                            onFocus={cleanErrors}
+                        />
+
+                        <TextField
+                            required
+                            id="vision"
+                            name="vision"
+                            label="Visión"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.vision !== ""}
+                            helperText={errors.vision}
+                            onFocus={cleanErrors}
+                        />
+
+                        <TextField
+                            required
+                            id="mission"
+                            name="mission"
+                            label="Misión"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.mission !== ""}
+                            helperText={errors.mission}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="investigationLine"
+                            name="investigationLine"
+                            label="Línea de Investigación"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.investigationLine !== ""}
+                            helperText={errors.investigationLine}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="projects"
+                            name="projects"
+                            label="Proyectos"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.projects !== ""}
+                            helperText={errors.projects}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="services"
+                            name="services"
+                            label="Servicios"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.services !== ""}
+                            helperText={errors.services}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="results"
+                            name="results"
+                            label="Resultados"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.results !== ""}
+                            helperText={errors.results}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="strategy"
+                            name="strategy"
+                            label="Estrategia"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.strategy !== ""}
+                            helperText={errors.strategy}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="discipline"
+                            name="discipline"
+                            label="Disciplina"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.discipline !== ""}
+                            helperText={errors.discipline}
+                            onFocus={cleanErrors}
+                        />
+
+
+                        <TextField
+                            required
+                            id="area"
+                            name="area"
+                            label="Area"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.area !== ""}
+                            helperText={errors.area}
+                            onFocus={cleanErrors}
+                        />
+
+                        <TextField
+                            required
+                            id="investigators"
+                            name="investigators"
+                            label="Cant.Investigadores"
+                            type="number"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.investigators !== ""}
+                            helperText={errors.investigators}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="investigatorsDoc"
+                            name="investigatorsDoc"
+                            label="Cant.Investigadores con categoría  Docente"
+                            type="number"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.investigatorsDoc !== ""}
+                            helperText={errors.investigatorsDoc}
+                            onFocus={cleanErrors}
+                        />
+                        <TextField
+                            required
+                            id="investigatorsMaster"
+                            name="investigatorsMaster"
+                            label="Cant.Investigadores con grado de Master o Superior"
+                            type="number"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                            error={errors.investigatorsMaster !== ""}
+                            helperText={errors.investigatorsMaster}
+                            onFocus={cleanErrors}
+                        />
+                    </div>
+
 
                 </div>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error'>
+                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'>
                         Cancelar
                     </Button>
 
-                    <Button variant="contained" endIcon={<AddCircleIcon />} onClick={handleSubmit}>
+                    <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleSubmit}>
                         Crear
                     </Button>
                 </div>

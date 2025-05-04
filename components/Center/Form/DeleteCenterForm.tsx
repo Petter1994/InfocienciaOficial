@@ -1,16 +1,14 @@
 'use client'
-import { useState, ChangeEvent } from 'react'
+import { useState } from 'react'
 import { useSnackbar } from 'notistack';
 import { Center } from '@/types/center'
 import { GenericResponse } from '@/types/response'
 import { deleteCenter } from '@/lib/request/center'
 
 import CancelIcon from '@mui/icons-material/Cancel';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 
 

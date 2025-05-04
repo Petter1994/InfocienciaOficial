@@ -1,21 +1,55 @@
+import {Post} from '@/types/post'
+
 export type Center = {
   id:number;
   name: string;
+  vision: string;
+  mission: string;
+  investigationLine: string;
+  projects: string;
+  services: string;
+  results: string;
+  strategy: string;
+  investigators: number;
+  investigatorsDoc: number;
+  investigatorsMaster: number;
+  discipline: string;
   area: string;
-  grade: string;
   logo?: string
+  posts: Post[]
 };
 
-export const emptyCenter = {
+export const emptyCenter  = {
   name: '',
+  vision: '',
+  mission: '',
+  investigationLine: '',
+  projects: '',
+  services: '',
+  results: '',
+  strategy: '',
+  investigators: 0,
+  investigatorsDoc: 0,
+  investigatorsMaster: 0,
+  discipline: '',
   area: '',
-  grade: '',
+  posts: []
 };
 
 export type CenterPayload = {
   name: string;
+  vision: string;
+  mission: string;
+  investigationLine: string;
+  projects: string;
+  services: string;
+  results: string;
+  strategy: string;
+  investigators: number;
+  investigatorsDoc: number;
+  investigatorsMaster: number;
+  discipline: string;
   area: string;
-  grade: string;
   logo?: string
 };
 

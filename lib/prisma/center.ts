@@ -1,5 +1,5 @@
-import { Center, CenterPayload } from "@/types/center";
-import { PrismaClient, Prisma } from '@prisma/client'
+import {Center, CenterPayload} from "@/types/center";
+import {PrismaClient, Prisma} from '@prisma/client'
 
 
 const prisma = new PrismaClient()
@@ -8,70 +8,75 @@ export async function getAll() {
     try {
         const centerFromDb = await prisma.center.findMany()
         if (!centerFromDb) {
-            return { error: { code: 404 }, message: "not found", ok: false }
+            return {error: {code: 404}, message: "not found", ok: false}
         }
-        return { center: centerFromDb, ok: true }
+        return {center: centerFromDb, ok: true}
     } catch (error: any) {
-        return { error, message: error.message, ok: false }
+        return {error, message: error.message, ok: false}
     }
 }
-
-
-
 
 
 export async function createCenter(center: CenterPayload) {
-  try {
-    // 1. Validaciones básicas
-    if (!center.name || center.name.trim().length === 0) {
-      throw new Error('El nombre del centro es requerido');
-    }
+    try {
+        // 1. Validaciones básicas
+        if (!center.name || center.name.trim().length === 0) {
+            throw new Error('El nombre del centro es requerido');
+        }
 
-    if (center.name.length > 255) {
-      throw new Error('El nombre no puede exceder 255 caracteres');
-    }
+        if (center.name.length > 255) {
+            throw new Error('El nombre no puede exceder 255 caracteres');
+        }
 
-    // 2. Preparar datos (con valores por defecto)
-    const centerData: Prisma.CenterCreateInput = {
-      name: center.name.trim(),
-      area: center.area?.trim() || null,
-      grade: center.grade?.trim() || null,
-      logo: center.logo?.trim() || null,
-    };
-
-    // 3. Crear el centro
-    const centerFromDb = await prisma.center.create({ 
-      data: centerData 
-    });
-
-    return { 
-      center: centerFromDb, 
-      ok: true 
-    };
-
-  } catch (error: any) {
-    console.error('Error en createCenter:', error);
-
-    // Manejo específico para errores de Prisma
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          error: 'DUPLICATED_CENTER',
-          message: `Ya existe un centro con el nombre "${center.name}"`,
-          ok: false
+        // 2. Preparar datos (con valores por defecto)
+        const centerData: Prisma.CenterCreateInput = {
+            name: center.name.trim(),
+            area: center.area?.trim(),
+            vision: center.vision?.trim(),
+            mission: center.mission?.trim(),
+            investigationLine: center.investigationLine?.trim(),
+            projects: center.projects?.trim(),
+            services: center.services?.trim(),
+            results: center.results?.trim(),
+            strategy: center.strategy?.trim(),
+            discipline: center.discipline?.trim(),
+            investigators: center.investigators,
+            investigatorsDoc: center.investigatorsDoc,
+            investigatorsMaster: center.investigatorsMaster,
+            logo: center.logo?.trim() || null,
         };
-      }
+
+        // 3. Crear el centro
+        const centerFromDb = await prisma.center.create({
+            data: centerData
+        });
+
+        return {
+            center: centerFromDb,
+            ok: true
+        };
+
+    } catch (error: any) {
+        console.error('Error en createCenter:', error);
+
+        // Manejo específico para errores de Prisma
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                return {
+                    error: 'DUPLICATED_CENTER',
+                    message: `Ya existe un centro con el nombre "${center.name}"`,
+                    ok: false
+                };
+            }
+        }
+
+        return {
+            error: error.code || 'INTERNAL_ERROR',
+            message: error.message || 'Error desconocido al crear centro',
+            ok: false
+        };
     }
-
-    return {
-      error: error.code || 'INTERNAL_ERROR',
-      message: error.message || 'Error desconocido al crear centro',
-      ok: false
-    };
-  }
 }
-
-
 
 
 export async function updateCenter(id: number, center: CenterPayload) {
@@ -79,22 +84,32 @@ export async function updateCenter(id: number, center: CenterPayload) {
 
         const updateData: Prisma.CenterUpdateInput = {
             name: center.name.trim(),
-            area: center.area?.trim() || null,
-            grade: center.grade?.trim() || null,
+            area: center.area?.trim(),
+            vision: center.vision?.trim(),
+            mission: center.mission?.trim(),
+            investigationLine: center.investigationLine?.trim(),
+            projects: center.projects?.trim(),
+            services: center.services?.trim(),
+            results: center.results?.trim(),
+            strategy: center.strategy?.trim(),
+            discipline: center.discipline?.trim(),
+            investigators: center.investigators,
+            investigatorsDoc: center.investigatorsDoc,
+            investigatorsMaster: center.investigatorsMaster,
             logo: center.logo?.trim() || null,
-          }
+        }
 
-          const updatedCenter = await prisma.center.update({
-            where: { id },
+        const updatedCenter = await prisma.center.update({
+            where: {id},
             data: updateData,
             include: {
-              posts: true,
+                posts: true,
             }
-          })
+        })
 
-        return { center: updatedCenter, ok: true }
+        return {center: updatedCenter, ok: true}
     } catch (error: any) {
-        return { error, message: error.message, ok: false }
+        return {error, message: error.message, ok: false}
     }
 }
 
@@ -104,34 +119,33 @@ export async function getById(id: number) {
 
         const centerFromDb: Center | null = await prisma.center.findUnique(
             {
-                where: { id },
+                where: {id},
             },
         )
         if (!centerFromDb) {
-            return { error: { code: 404 }, message: "not found", ok: false }
+            return {error: {code: 404}, message: "not found", ok: false}
         }
 
-        return { center: centerFromDb, ok: true }
+        return {center: centerFromDb, ok: true}
     } catch (error: any) {
-        return { error, message: error.message, ok: false }
+        return {error, message: error.message, ok: false}
     }
 }
-
 
 
 export async function deleteById(id: number) {
     try {
         const centerFromDb: Center | null = await prisma.center.delete(
             {
-                where: { id },
+                where: {id},
             },
         )
         if (!centerFromDb) {
-            return { error: { code: 404 }, message: "not found", ok: false }
+            return {error: {code: 404}, message: "not found", ok: false}
         }
-        return { center: centerFromDb, ok: true }
+        return {center: centerFromDb, ok: true}
     } catch (error: any) {
-        return { error, message: error.message, ok: false }
+        return {error, message: error.message, ok: false}
     }
 }
 
