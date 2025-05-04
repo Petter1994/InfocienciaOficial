@@ -33,6 +33,13 @@ export type UserPayload = {
     password: string
 }
 
+export type UserEditPayload = {
+    name?: string
+    email: string,
+    bio?: string,
+    avatar?: string,
+}
+
 
 export type UserRegisterPayload= {
     name?: string
@@ -70,10 +77,11 @@ export type PassFormError= {
     pass2: string,
 }
 
-export type UserData {
+export type UserData ={
     name: string,
     email: string,
     bio: string | null
+    avatar?: string
 }
 
 export type CurrentUser ={

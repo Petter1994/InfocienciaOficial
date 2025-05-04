@@ -1,0 +1,84 @@
+import { useState, useRef, ChangeEvent } from "react";
+import { Avatar, IconButton, Tooltip } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { styled } from "@mui/material/styles";
+
+interface EditableAvatarProps {
+  initialImage?: string;
+  onImageChange: (file: File) => void;
+  size?: number;
+}
+
+const StyledAvatar = styled(Avatar)(({ size }: { size: number }) => ({
+  width: size,
+  height: size,
+  cursor: "pointer",
+}));
+
+const Input = styled("input")({
+  display: "none",
+});
+
+export default function UserAvatar({
+  initialImage = "/default-avatar.png",
+  onImageChange,
+  size = 120,
+}: EditableAvatarProps) {
+  const [image, setImage] = useState<string>(initialImage);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          setImage(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+      onImageChange(file);
+    }
+  };
+
+  const handleEditClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  return (
+    <div style={{ position: "relative", width: size, height: size }}>
+    <StyledAvatar
+      src={image}
+      alt="User Avatar"
+      size={size}
+      onClick={handleEditClick}
+    />
+
+    <Tooltip title="Cambiar foto" arrow>
+      <IconButton
+        color="primary"
+        aria-label="edit avatar"
+        onClick={handleEditClick}
+        sx={{  
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          backgroundColor: "background.paper",
+          "&:hover": {
+            backgroundColor: "action.hover",
+          },
+        }}
+      >
+        <EditIcon fontSize="small" />
+      </IconButton>
+    </Tooltip>
+
+    <Input
+      type="file"
+      ref={fileInputRef}
+      onChange={handleFileChange}
+      accept="image/*"
+    />
+  </div>
+  );
+}

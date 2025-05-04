@@ -80,7 +80,7 @@ const Footer = () => {
                   className="animate_top"
                 >
                   <h4 className="mb-9 text-itemtitle2 font-medium text-black dark:text-white">
-                   Enlazes Rápidos
+                   Enlaces Rápidos
                   </h4>
 
                   <ul>
@@ -130,7 +130,7 @@ const Footer = () => {
                   className="animate_top"
                 >
                   <h4 className="mb-9 text-itemtitle2 font-medium text-black dark:text-white">
-                    Enlazes Útiles
+                    Enlaces Útiles
                   </h4>
 
                   <ul>

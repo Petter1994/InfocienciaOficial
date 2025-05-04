@@ -1,21 +1,13 @@
 "use client";
 import { usePathname } from 'next/navigation';
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
-import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import Loading from '@/components/Loading/Loading'
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { Button } from '@mui/material';
-import { signOut } from "next-auth/react";
+import UserMenu from '@/components/User/UserMenu'
 
 const Header = () => {
-  const { data: session, status } = useSession();
-
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
@@ -48,17 +40,21 @@ const Header = () => {
             <Image
               src="/images/logo/info-logo.png"
               alt="logo"
-              width={130.03}
-              height={40}
-              className="hidden w-full dark:block"
+              width={50}
+              height={30}
+              className="hidden dark:block justify-center mx-auto text-center"
             />
             <Image
               src="/images/logo/info-logo.png"
               alt="logo"
-              width={130.03}
-              height={40}
-              className="w-full dark:hidden"
+              width={50}
+              height={30}
+              className="dark:hidden justify-center mx-auto text-center"
             />
+            <span>
+            INFOCIENCIA
+            </span>
+            
           </a>
 
 
@@ -156,48 +152,9 @@ const Header = () => {
           <div className="mt-7 flex items-center gap-6 xl:mt-0">
             <ThemeToggler />
 
-            {
-              status === "loading" ?
-                <>
-                  <Loading />
-                </>
-                :
-                <>
-                  
-                  {
-              session?.user ?
-                <>
-                <p><PersonOutlineOutlinedIcon />{session.user.name}</p>
-                  <Button
-                    onClick={() => signOut()}
-                    className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out"
-                  >
-                    Salir<LogoutOutlinedIcon />
-                  </Button>
-                </>
-                :
-                <>
-                  <Link
-                    href="/auth/signup"
-                    className="text-regular font-medium text-waterloo hover:text-primary"
-                  >
-                    Registrar
-                  </Link>
+            <UserMenu/>
 
-                  <Link
-                    href="/auth/signin"
-                    className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
-                  >
-                    Entrar<LoginOutlinedIcon />
-                  </Link>
-                </>
-            }
-                </>
-            }
-
-
-          
-
+    
 
           </div>
         </div>

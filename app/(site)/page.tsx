@@ -23,7 +23,7 @@ export default function Home() {
     
       <main>
         <Hero />
-        <Feature />
+       
         <About />
         <FeaturesTab />
         <FunFact />
