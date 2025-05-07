@@ -148,10 +148,12 @@ export default function AddCenterForm(props: Props) {
         if (formData.investigatorsMaster < 0) {
             newErrors.investigatorsMaster = 'Número Incorrecto'
         }
-        if (formData.investigatorsMaster > formData.investigators || formData.investigatorsDoc > formData.investigators) {
-            newErrors.investigatorsDoc = 'Excede la cantidad de Investigadores del Centro'
-            newErrors.investigatorsMaster = 'Excede la cantidad de Investigadores del Centro'
-        }
+        // if (formData.investigatorsMaster > formData.investigators) {
+        //     newErrors.investigatorsMaster = 'Excede la cantidad de Investigadores del Centro'
+        // }
+        // if (formData.investigatorsDoc > formData.investigators) {
+        //     newErrors.investigatorsDoc = 'Excede la cantidad de Investigadores del Centro'
+        // }
 
         if (formData.area === "") {
             newErrors.area = 'Area requerida';

@@ -16,6 +16,14 @@ import DeleteCenterForm from '@/components/Center/Form/DeleteCenterForm'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Divider from '@mui/material/Divider';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import {Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
+import {Close} from "@mui/icons-material";
+import AddCenterForm from "@/components/Center/Form/AddCenterForm";
+
 
 
 
@@ -85,25 +93,28 @@ const CenterItem = (props: Props) => {
                 whileInView="visible"
                 transition={{duration: 1, delay: 0.5}}
                 viewport={{once: true}}
-                className="animate_top rounded-lg bg-white p-4 pb-9 shadow-solid-8 dark:bg-blacksection"
+                className="animate_top  p-4 pb-9 "
             >
                 <div>
-                    <Image src={center.logo ? center.logo : '/images/center/blog-04.png'} alt='images' width={200}
-                           height={200}/>
-                    <div className="px-4">
-                        <h3 className="mb-3.5 mt-7.5 line-clamp-2 inline-block text-lg font-medium text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary xl:text-itemtitle2">
-
-                            {center.name}
-
-                        </h3>
-
-
-                        <p className="line-clamp-3"><span className='font-bold'>Área:</span>{center.area}</p>
-
-
-                        <div className="mt-3">
-
-                            <Divider/>
+                    <Card sx={{ width: 345 , height: 400 }}>
+                        <CardMedia
+                            className='w-[200] h-[200] bg-cover'
+                            component="img"
+                            alt="center img"
+                            height={200}
+                            width={200}
+                            image={center.logo ? center.logo : '/images/center/blog-04.png'}
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                {center.name}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                <span className='font-bold'>Área:</span>{center.area}
+                            </Typography>
+                        </CardContent>
+                        <Divider/>
+                        <CardActions className='justify-end'>
                             {
                                 status === "loading" ?
                                     <>
@@ -131,30 +142,30 @@ const CenterItem = (props: Props) => {
                                         }
                                     </div>
                             }
-
-                        </div>
-                    </div>
+                        </CardActions>
+                    </Card>
                 </div>
             </motion.div>
 
 
-            <Modal
+            <Dialog
+                fullScreen
                 open={openModalEdit}
                 onClose={handleCloseModalEdit}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="fullscreen-upload-dialog"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2"
-                                className='text-center justify-center'>
+                <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center mx-auto'>
                         Editar Centro
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{mt: 2}}>
-
-                    </Typography>
+                    <IconButton edge="end" color="inherit" onClick={handleCloseModalEdit}>
+                        <Close />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <EditCenterForm onClose={handleCloseModalEdit} mutate={props.mutate} center={center}/>
-                </Box>
-            </Modal>
+                </DialogContent>
+            </Dialog>
 
 
             <Modal
@@ -202,7 +213,7 @@ const CenterItem = (props: Props) => {
                             </div>
                         }
 
-                        <div className=''>
+                        <div className='mt-2'>
                             <p className="font-small text-black">
                                 <span className='font-bold'>Nombre:</span>{center.name}
                             </p>
