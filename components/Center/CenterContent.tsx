@@ -111,7 +111,7 @@ export default function CenterContent() {
                             </>
                             :
 
-                            <div className="grid grid-cols-1 gap-7.5 md:grid-cols-2 lg:grid-cols-3 xl:gap-10">
+                            <div className="grid grid-cols-1 gap-7.5 md:grid-cols-2 lg:grid-cols-3 xl:gap-10 mt-5">
                                 {
                                     filterCenters.map((center, key) => (
                                         <div key={key} className='flex gap-5'>

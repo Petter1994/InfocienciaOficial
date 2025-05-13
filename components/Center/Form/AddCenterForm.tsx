@@ -281,7 +281,7 @@ export default function AddCenterForm(props: Props) {
                     </div>
 
 
-                    <div className='grid grid-cols-2 gap-5'>
+                    <div className='grid grid-cols-1 gap-5'>
 
 
                         <TextField

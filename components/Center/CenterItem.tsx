@@ -20,11 +20,10 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import {Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
+import {Chip, Dialog, DialogContent, DialogTitle, IconButton, Stack} from "@mui/material";
 import {Close} from "@mui/icons-material";
-import AddCenterForm from "@/components/Center/Form/AddCenterForm";
-
-
+import Link from "next/link";
+import {normalizeDate} from "@/utils/date";
 
 
 type Props = {
@@ -93,57 +92,68 @@ const CenterItem = (props: Props) => {
                 whileInView="visible"
                 transition={{duration: 1, delay: 0.5}}
                 viewport={{once: true}}
-                className="animate_top  p-4 pb-9 "
+                className="animate_top rounded-lg bg-white p-4 pb-9 shadow-solid-8 dark:bg-blacksection"
             >
-                <div>
-                    <Card sx={{ width: 345 , height: 400 }}>
-                        <CardMedia
-                            className='w-[200] h-[200] bg-cover'
-                            component="img"
-                            alt="center img"
-                            height={200}
-                            width={200}
-                            image={center.logo ? center.logo : '/images/center/blog-04.png'}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {center.name}
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                <span className='font-bold'>Área:</span>{center.area}
-                            </Typography>
-                        </CardContent>
+                <div className='max-w-[200px] max-h-[200px] mx-auto justify-center text-center'>
+                    <Image src={center.logo ? center.logo : '/images/center/blog-04.png'} alt='image'  height={100} width={100} className='mx-auto justify-center text-center'/>
+                </div>
+
+
+                <div className="px-4">
+                    <h3 className="mb-3.5 mt-7.5 line-clamp-2 inline-block text-lg font-medium text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary xl:text-itemtitle2">
+
+                        {center.name}
+
+                    </h3>
+
+
+                    <div className=''>
+                        <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
+                            <span className='font-bold'>Área:</span>{center.area}
+                        </p>
+                        <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
+                            <span className='font-bold'>Misión:</span>{center.mission}
+                        </p>
+                        <p className="font-small text-black duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
+                            <span className='font-bold'>Visión:</span>{center.vision}
+                        </p>
+                    </div>
+                    <div className="mt-3">
+                        <br className='border-4'></br>
+
                         <Divider/>
-                        <CardActions className='justify-end'>
-                            {
-                                status === "loading" ?
-                                    <>
-                                    </>
-                                    :
-                                    <div className='justify-end flex'>
-                                        <Tooltip title="Detalles" placement="top">
-                                            <Button size="small" endIcon={<RemoveRedEyeIcon/>}
-                                                    onClick={handleOpenModalDetail}></Button>
-                                        </Tooltip>
 
-                                        {
-                                            session?.user && session.user.role === 'ADMIN' &&
-                                            <>
-                                                <Tooltip title="Eliminar" placement="top">
-                                                    <Button size="small" endIcon={<DeleteIcon/>} color="error"
-                                                            onClick={handleOpenModalDelete}></Button>
-                                                </Tooltip>
 
-                                                <Tooltip title="Editar" placement="top">
-                                                    <Button size="small" endIcon={<EditIcon/>}
-                                                            onClick={handleOpenModalEdit}></Button>
-                                                </Tooltip>
-                                            </>
-                                        }
-                                    </div>
-                            }
-                        </CardActions>
-                    </Card>
+                        {
+                            status === "loading" ?
+                                <>
+                                </>
+                                :
+                                <div className='justify-end flex'>
+                                    <Tooltip title="Detalles" placement="top">
+                                        <Button size="small" endIcon={<RemoveRedEyeIcon/>}
+                                                onClick={handleOpenModalDetail}></Button>
+                                    </Tooltip>
+
+                                    {
+                                        session?.user && session.user.role === 'ADMIN' &&
+                                        <>
+                                            <Tooltip title="Eliminar" placement="top">
+                                                <Button size="small" endIcon={<DeleteIcon/>} color="error"
+                                                        onClick={handleOpenModalDelete}></Button>
+                                            </Tooltip>
+
+                                            <Tooltip title="Editar" placement="top">
+                                                <Button size="small" endIcon={<EditIcon/>}
+                                                        onClick={handleOpenModalEdit}></Button>
+                                            </Tooltip>
+                                        </>
+                                    }
+                                </div>
+                        }
+
+
+                    </div>
                 </div>
             </motion.div>
 
@@ -154,15 +164,16 @@ const CenterItem = (props: Props) => {
                 onClose={handleCloseModalEdit}
                 aria-labelledby="fullscreen-upload-dialog"
             >
-                <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center mx-auto'>
+                <DialogTitle sx={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2"
+                                className='text-center justify-center mx-auto'>
                         Editar Centro
                     </Typography>
                     <IconButton edge="end" color="inherit" onClick={handleCloseModalEdit}>
-                        <Close />
+                        <Close/>
                     </IconButton>
                 </DialogTitle>
-                <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <DialogContent dividers sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <EditCenterForm onClose={handleCloseModalEdit} mutate={props.mutate} center={center}/>
                 </DialogContent>
             </Dialog>
@@ -258,7 +269,8 @@ const CenterItem = (props: Props) => {
                         </div>
 
                         <div className='mx-auto justify-center text-center mt-5'>
-                            <Button variant="contained" endIcon={<CancelIcon />} onClick={handleCloseModalDetail} color='error'>
+                            <Button variant="contained" endIcon={<CancelIcon/>} onClick={handleCloseModalDetail}
+                                    color='error'>
                                 Cerrar
                             </Button>
 
