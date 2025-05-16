@@ -95,7 +95,8 @@ const CenterItem = (props: Props) => {
                 className="animate_top rounded-lg bg-white p-4 pb-9 shadow-solid-8 dark:bg-blacksection"
             >
                 <div className='max-w-[200px] max-h-[200px] mx-auto justify-center text-center'>
-                    <Image src={center.logo ? center.logo : '/images/center/blog-04.png'} alt='image'  height={100} width={100} className='mx-auto justify-center text-center'/>
+                    <Image src={center.logo ? center.logo : '/images/center/blog-04.png'} alt='image' height={100}
+                           width={100} className='mx-auto justify-center text-center'/>
                 </div>
 
 
@@ -202,20 +203,22 @@ const CenterItem = (props: Props) => {
             </Modal>
 
 
-            <Modal
+            <Dialog
+                fullScreen
                 open={openModalDetail}
                 onClose={handleCloseModalDetail}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="fullscreen-upload-dialog"
             >
-                <Box sx={style}>
+                <DialogTitle sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Typography id="modal-modal-title" variant="h6" component="h2"
-                                className='text-center justify-center'>
+                                className='text-center justify-center mx-auto'>
                         Detalles del Centro
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{mt: 2}}>
-
-                    </Typography>
+                    <IconButton edge="end" color="inherit" onClick={handleCloseModalDetail}>
+                        <Close/>
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent dividers sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <div>
                         {
                             center.logo &&
@@ -278,8 +281,10 @@ const CenterItem = (props: Props) => {
 
 
                     </div>
-                </Box>
-            </Modal>
+                </DialogContent>
+            </Dialog>
+
+
         </>
 
 
