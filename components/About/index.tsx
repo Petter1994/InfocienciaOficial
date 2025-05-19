@@ -102,6 +102,20 @@ const About = () => {
                   <p>Interactúa con otros usuarios</p>
                 </div>
               </div>
+
+
+              <div className="mt-10">
+                    <a href="/center">
+
+
+                      <button
+                          aria-label="get started button"
+                          className="flex rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
+                      >
+                        Ver Centros
+                      </button>
+                    </a>
+              </div>
             </motion.div>
           </div>
         </div>

@@ -3,35 +3,35 @@ import { useState } from 'react'
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Typography from '@mui/material/Typography';
-import AddEventForm from '@/components/Event/Form/AddEventForm'
+import AddCourseForm from '@/components/Course/Form/AddCourseForm'
 import useSWR from 'swr'
-import { fetchAllEvent, fetchAllEventUrl } from '@/lib/request/event'
+import { fetchAllCourse, fetchAllCourseUrl } from '@/lib/request/course'
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
-import EventItem from '@/components/Event/EventItem';
+import CourseItem from '@/components/Course/CourseItem';
 import SectionHeader from "../Common/SectionHeader";
 import LoadingFull from '@/components/Loading/LoadingFull'
 import { useSession } from "next-auth/react";
-import {Event,emptyEvent} from "@/types/event";
+import {Course,emptyCourse} from "@/types/course";
 import {Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import {Close} from "@mui/icons-material";
 
 
-export default function EventContent() {
+export default function CourseContent() {
     const { data: session, status } = useSession();
-    const { data, isLoading, error, mutate } = useSWR(fetchAllEventUrl, fetchAllEvent)
+    const { data, isLoading, error, mutate } = useSWR(fetchAllCourseUrl, fetchAllCourse)
 
-    const events = data ? data.result as Event[] : [emptyEvent]
+    const courses = data ? data.result as Course[] : [emptyCourse]
 
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    let filterEvents = events
-    if (searchTerm != "" && filterEvents.length > 0) {
-        filterEvents = events.filter(event => event.name === searchTerm)
+    let filterCourses
+    if (searchTerm != "" && filterCourses.length > 0) {
+        filterCourses = courses.filter(course => course.name === searchTerm)
     }
 
 
@@ -43,8 +43,8 @@ export default function EventContent() {
                     <SectionHeader
                         headerInfo={{
                             title: "Infociencia",
-                            subtitle: "Eventos",
-                            description: `Experimentos, Innovación y Asombro`,
+                            subtitle: "Cursos",
+                            description: `Capacítate hoy, innova mañana.`,
                         }}
                     />
                 </div>
@@ -102,9 +102,9 @@ export default function EventContent() {
 
                             <div className="grid grid-cols-1 gap-7.5 md:grid-cols-2 lg:grid-cols-2 xl:gap-10">
                                 {
-                                    filterEvents.map((event, key) => (
+                                    filterCourses.map((course, key) => (
                                         <div key={key} className='flex gap-5'>
-                                            <EventItem event={event} mutate={mutate} />
+                                            <CourseItem course={course} mutate={mutate} />
                                         </div>
                                     ))
                                 }
@@ -126,14 +126,14 @@ export default function EventContent() {
             >
                 <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center mx-auto'>
-                        Adicionar Evento
+                        Adicionar Curso
                     </Typography>
                     <IconButton edge="end" color="inherit" onClick={handleClose}>
                         <Close />
                     </IconButton>
                 </DialogTitle>
                 <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <AddEventForm onClose={handleClose} mutate={mutate} />
+                    <AddCourseForm onClose={handleClose} mutate={mutate} />
                 </DialogContent>
             </Dialog>
         </>

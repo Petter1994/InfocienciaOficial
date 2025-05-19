@@ -16,19 +16,24 @@ datasource db {
 enum Role {
   USER
   ADMIN
+  MODERATOR
+}
+
+enum State {
+  ACTIVE
+  INACTIVE
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String?
-  email     String    @unique
+  email     String   @unique
   bio       String?
   avatar    String?
   password  String
-  comments  Comment[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  role      Role      @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      Role     @default(USER)
 }
 
 model Post {
@@ -54,8 +59,8 @@ model Comment {
   content   String
   postId    Int
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
+  name      String
+  email     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -77,6 +82,7 @@ model Center {
   area                String   @default("")
   logo                String?
   posts               Post[]
+  courses             Course[]
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 }
@@ -90,6 +96,20 @@ model Event {
   logo        String?
   dateStart   DateTime @default(now())
   dateEnd     DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  name        String
+  cloister    String
+  description String
+  date        DateTime @default(now())
+  state       State    @default(ACTIVE)
+  logo        String?
+  center      Center   @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  centerId    Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

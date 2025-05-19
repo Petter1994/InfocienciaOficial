@@ -140,16 +140,24 @@ export default function BlogItemDetail({post, mutate}: Props) {
                                         </div>
                                     }
 
-
-                                    <TextareaAutosize
-                                        aria-label="post content"
-                                        placeholder="Escriba su articulo aqui"
-                                        style={{width: '100%', padding: 5}}
-                                        value={post ? post.content : ""}
-                                        onChange={handleInputChange}
-                                        disabled={!isAdmin}
-                                    />
-
+                                    {
+                                        isAdmin ?
+                                            <TextareaAutosize
+                                                aria-label="post content"
+                                                placeholder="Escriba su articulo aqui"
+                                                style={{width: '100%', padding: 5}}
+                                                value={post ? post.content : ""}
+                                                onChange={handleInputChange}
+                                                disabled={!isAdmin}
+                                            />
+                                            :
+                                            <TextareaAutosize
+                                                aria-label="post content"
+                                                style={{width: '100%', padding: 5}}
+                                                value={post ? post.content : ""}
+                                                disabled
+                                            />
+                                    }
 
                                 </div>
 

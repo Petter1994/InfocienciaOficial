@@ -28,32 +28,7 @@ const Hero = () => {
                 Fundada en 1728, la Universidad de La Habana (UH) es la institución de educación superior más antigua de Cuba y un símbolo de la historia intelectual del país. Su evolución abarca desde su origen colonial como Real y Pontificia Universidad de San Jerónimo hasta su rol actual como centro científico y cultural clave en América Latina. Fuentes como "Historia de la Universidad de La Habana (1728-1959)" (Torres-Cuevas, 2009) detallan su transformación bajo influencias políticas y sociales. La UH ha sido cuna de pensadores como José Martí y Fidel Castro, reflejando su impacto nacional. Estudios recientes, como los de la Editorial UH (2018) y la UNESCO (2021), destacan su patrimonio arquitectónico y su contribución al desarrollo científico regional.
               </p>
 
-              <div className="mt-10">
-                <form onSubmit={handleSubmit}>
-                  <div className="flex flex-wrap gap-5">
-                    <input
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      type="text"
-                      placeholder="Inserte su Correo"
-                      className="rounded-full border border-stroke px-6 py-2.5 shadow-solid-2 focus:border-primary focus:outline-none dark:border-strokedark dark:bg-black dark:shadow-none dark:focus:border-primary"
-                    />
 
-                    <a href="/auth/signin">
-
-
-                      <button
-                        aria-label="get started button"
-                        className="flex rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
-                      >
-                        Comenzar
-                      </button>
-                    </a>
-                  </div>
-                </form>
-
-
-              </div>
             </div>
 
             <div className="animate_right hidden md:w-1/2 lg:block">

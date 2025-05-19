@@ -1,4 +1,5 @@
 import {Post} from '@/types/post'
+import {Course} from '@/types/course'
 
 export type Center = {
   id:number;
@@ -17,6 +18,7 @@ export type Center = {
   area: string;
   logo?: string
   posts: Post[]
+  courses: Course[]
 };
 
 export const emptyCenter  = {
@@ -33,7 +35,8 @@ export const emptyCenter  = {
   investigatorsMaster: 0,
   discipline: '',
   area: '',
-  posts: []
+  posts: [],
+  courses:[]
 };
 
 export type CenterPayload = {
