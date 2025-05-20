@@ -16,14 +16,8 @@ import DeleteCenterForm from '@/components/Center/Form/DeleteCenterForm'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Divider from '@mui/material/Divider';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import {Chip, Dialog, DialogContent, DialogTitle, IconButton, Stack} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import {Close} from "@mui/icons-material";
-import Link from "next/link";
-import {normalizeDate} from "@/utils/date";
 
 
 type Props = {
@@ -31,17 +25,6 @@ type Props = {
     mutate: () => Promise<any>
 }
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 500,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 
 const styleDelete = {
     position: 'absolute',

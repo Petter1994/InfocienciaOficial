@@ -13,7 +13,6 @@ import "../globals.css";
 const inter = Inter({subsets: ["latin"]});
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 
 
 export default function RootLayout({

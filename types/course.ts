@@ -3,7 +3,8 @@ export type Course = {
   name: string;
   cloister: string;
   description: string;
-  date: Date;
+  dateStart: Date;
+  dateEnd: Date;
   state: 'ACTIVE' | 'INACTIVE',
   logo?: string
   centerId: number
@@ -13,7 +14,8 @@ export const emptyCourse  = {
   name: '',
   cloister: '',
   description: '',
-  date: new Date(),
+  dateStart: new Date(),
+  dateEnd: new Date(),
   state: 'ACTIVE',
   centerId: 9999999
 };
@@ -22,7 +24,8 @@ export type CoursePayload = {
   name: string;
   cloister: string;
   description: string;
-  date: Date;
+  dateStart: Date;
+  dateEnd: Date;
   state: 'ACTIVE' | 'INACTIVE',
   logo?: string
   centerId: number

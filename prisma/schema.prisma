@@ -105,7 +105,8 @@ model Course {
   name        String
   cloister    String
   description String
-  date        DateTime @default(now())
+  dateStart   DateTime @default(now())
+  dateEnd     DateTime @default(now())
   state       State    @default(ACTIVE)
   logo        String?
   center      Center   @relation(fields: [centerId], references: [id], onDelete: Cascade)

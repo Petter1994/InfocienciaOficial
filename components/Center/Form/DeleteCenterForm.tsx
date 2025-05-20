@@ -7,7 +7,6 @@ import { deleteCenter } from '@/lib/request/center'
 
 import CancelIcon from '@mui/icons-material/Cancel';
 import Button from '@mui/material/Button';
-
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 
@@ -59,7 +58,7 @@ export default function DeleteCenterForm(props: Props) {
             <form noValidate onSubmit={handleSubmit}>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error'>
+                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error' disabled={isLoading}>
                         Cancelar
                     </Button>
 
@@ -67,6 +66,7 @@ export default function DeleteCenterForm(props: Props) {
                         variant="contained"
                         endIcon={<DeleteForeverIcon />}
                         onClick={handleSubmit}
+                        disabled={isLoading}
                     >
                         Eliminar
                     </Button>

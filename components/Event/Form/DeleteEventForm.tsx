@@ -1,15 +1,12 @@
 'use client'
-import { useState, ChangeEvent } from 'react'
+import { useState } from 'react'
 import { useSnackbar } from 'notistack';
 import { Event } from '@/types/event'
 import { GenericResponse } from '@/types/response'
 import { deleteEvent } from '@/lib/request/event'
 
 import CancelIcon from '@mui/icons-material/Cancel';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
@@ -61,7 +58,7 @@ export default function DeleteEventForm(props: Props) {
             <form noValidate onSubmit={handleSubmit}>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error'>
+                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error' disabled={isLoading}>
                         Cancelar
                     </Button>
 
@@ -69,6 +66,7 @@ export default function DeleteEventForm(props: Props) {
                         variant="contained"
                         endIcon={<DeleteForeverIcon />}
                         onClick={handleSubmit}
+                        disabled={isLoading}
                     >
                         Eliminar
                     </Button>

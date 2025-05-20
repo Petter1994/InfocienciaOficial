@@ -14,32 +14,36 @@ import dayjs, {Dayjs} from 'dayjs';
 import FullDrop from "@/components/DropZone/FullDrop";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import {Center} from "@/types/center";
+import {SelectChangeEvent} from "@mui/material/Select";
+import {FormControl, FormHelperText, InputLabel, MenuItem, Select} from "@mui/material";
 
 type FormData = {
     name: string;
     cloister: string;
     description: string;
-    date: Date;
     state: 'ACTIVE' | 'INACTIVE',
     logo?: string
 }
 
 type FormErrors = {
     name?: string
-    area?: string
+    cloister?: string
     description?: string
-    host?: string
+    state?: string
     dateStart?: string
     dateEnd?: string
+    center?: string
 }
 
 const emptyFormError: FormErrors = {
     name: '',
-    area: '',
+    cloister: '',
     description: '',
-    host: '',
+    state: 'ACTIVE',
     dateStart: '',
-    dateEnd: ''
+    dateEnd: '',
+    center: '',
 }
 
 
@@ -47,31 +51,30 @@ type Props = {
     mutate?: () => Promise<any>
     onClose?: () => void
     course: Course
+    centers: Center[]
 }
 
 
 export default function EditCourseForm(props: Props) {
-    const course = props.course
-
     const {enqueueSnackbar} = useSnackbar()
 
+    const course = props.course
 
     const currentCourse: FormData = {
-        name: event.name,
-        area: event.area,
-        description: event.description,
-        logo: event.logo,
-        host: event.host
-
+        name: course.name,
+        cloister: course.cloister,
+        description: course.description,
+        logo: course.logo,
     }
 
     const [errors, setErrors] = useState<FormErrors>(emptyFormError)
-    const [formData, setFormData] = useState<FormData>(currentCenter);
+    const [formData, setFormData] = useState<FormData>(currentCourse);
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [uploadedUrl, setUploadedUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     const [dateStart, setDateStart] = useState<Dayjs | null>(dayjs());
     const [dateEnd, setDateEnd] = useState<Dayjs | null>(dayjs());
+    const [selectedCenter, setSelectedCenter] = useState<string>(String(course.centerId))
 
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -92,19 +95,15 @@ export default function EditCourseForm(props: Props) {
         const newErrors: FormErrors = {};
 
 
-        // if (formData.name === "") {
-        //     newErrors.name = 'Nombre requerido';
-        // }
-        //
-        // if (formData.area === "") {
-        //     newErrors.area = 'Area requerida';
-        // }
-        if (formData.description === "") {
-            newErrors.description = 'Descripción requerida';
+        if (formData.name === "") {
+            newErrors.name = 'Nombre requerido';
         }
 
-        if (formData.host === "") {
-            newErrors.host = 'Anfitrión requerido';
+        if (formData.cloister === "") {
+            newErrors.cloister = 'Claustro requerido';
+        }
+        if (formData.description === "") {
+            newErrors.description = 'Descripción requerida';
         }
 
         if (!dateStart) {
@@ -132,23 +131,29 @@ export default function EditCourseForm(props: Props) {
         setErrors(emptyFormError)
     }
 
+    const handleChangeCenter = (event: SelectChangeEvent) => {
+        const {value} = event.target;
+        setSelectedCenter(value)
+    }
+
 
     const handleSubmit = async () => {
         setIsLoading(true)
 
         if (validateForm()) {
-            const payload: EventPayload = {
+            const payload: CoursePayload = {
                 name: formData.name,
-                area: formData.area,
-                host: formData.host,
+                cloister: formData.cloister,
+                state: formData.state,
                 logo: uploadedUrl,
                 dateEnd: dateEnd ? dateEnd : new Date(),
-                description: formData.description,
-                dateStart: dateStart ? dateStart : new Date()
+                description: formData.description ? formData.description : '',
+                dateStart: dateStart ? dateStart : new Date(),
+                centerId: Number(selectedCenter)
             }
 
             console.log('Payload FRONT', payload);
-            const res: GenericResponse = await editEvent(payload, event.id)
+            const res: GenericResponse = await editCourse(payload, course.id)
 
             console.log('RES FRONT', res)
 
@@ -247,25 +252,37 @@ export default function EditCourseForm(props: Props) {
 
                     <TextField
                         required
-                        id="area"
-                        name="area"
-                        label="Area"
+                        id="cloister"
+                        name="cloister"
+                        label="Claustro"
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                        error={errors.area !== ""}
-                        helperText={errors.area}
+                        error={errors.cloister !== ""}
+                        helperText={errors.cloister}
                         onFocus={cleanErrors}
-                        defaultValue={formData.area}
+                        defaultValue={formData.cloister}
                     />
 
 
-                    <TextField
-                        id="host"
-                        name="host"
-                        label="Anfitrión"
-                        onFocus={cleanErrors}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                        defaultValue={formData.host}
-                    />
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Centro</InputLabel>
+                        <Select
+                            labelId="center"
+                            id="center"
+                            value={selectedCenter}
+                            label="Centro"
+                            onChange={handleChangeCenter}
+                            error={errors.center !== ""}
+                            onFocus={cleanErrors}
+                        >
+
+                            {
+                                props.centers.map((center, key) => (
+                                    <MenuItem key={key} value={center.id}>{center.name}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                        <FormHelperText>{errors.center}</FormHelperText>
+                    </FormControl>
 
                     <p>Descripción:</p>
                     <TextareaAutosize

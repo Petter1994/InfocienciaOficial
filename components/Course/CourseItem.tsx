@@ -14,17 +14,18 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import EditCourseForm from '@/components/Course/Form/EditCourseForm'
 import DeleteCourseForm from '@/components/Course/Form/DeleteCourseForm'
-import LoadingFull from '@/components/Loading/LoadingFull'
 import {normalizeDate} from '@/utils/date'
 import Divider from '@mui/material/Divider';
 import {Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import {Close} from "@mui/icons-material";
-
-
+import CancelIcon from '@mui/icons-material/Cancel';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import {Center} from "@/types/center";
 
 type Props = {
     course: Course
     mutate: () => Promise<any>
+    centers: Center[]
 }
 
 const styleDelete = {
@@ -46,12 +47,16 @@ const CourseItem = (props: Props) => {
 
     const [openModalEdit, setOpenModalEdit] = useState(false);
     const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [openModalDetail, setOpenModalDetail] = useState(false);
 
     const handleOpenModalEdit = () => setOpenModalEdit(true);
     const handleCloseModalEdit = () => setOpenModalEdit(false);
 
     const handleOpenModalDelete = () => setOpenModalDelete(true);
     const handleCloseModalDelete = () => setOpenModalDelete(false);
+
+    const handleOpenModalDetail = () => setOpenModalDetail(true);
+    const handleCloseModalDetail = () => setOpenModalDetail(false);
 
 
     return (
@@ -86,15 +91,11 @@ const CourseItem = (props: Props) => {
 
 
                         <p className="line-clamp-3"><span className='font-bold'>Claustro:</span>{course.cloister}</p>
-                        <p className="line-clamp-3"><span className='font-bold'>Estado:</span>{course.state}</p>
-                        <p className="line-clamp-3"><span className='font-bold'>Fecha:</span>{normalizeDate(course.date)}</p>
-                        <TextareaAutosize
-                            aria-label="course description"
-                            style={{width: '100%', padding: 5}}
-                            value={course.description}
-                            disabled
-                        />
-
+                        <p className="line-clamp-3"><span className='font-bold'>Estado:</span>{course.state === 'ACTIVE' ? 'Activo' : 'Inactivo'}</p>
+                        <p className="line-clamp-3"><span
+                            className='font-bold'>Fecha Inicio:</span>{normalizeDate(course.dateStart)}</p>
+                        <p className="line-clamp-3"><span
+                            className='font-bold'>Fecha Fin:</span>{normalizeDate(course.dateEnd)}</p>
 
                         <div className="mt-3">
                             <Divider/>
@@ -104,10 +105,16 @@ const CourseItem = (props: Props) => {
                                     <>
                                     </>
                                     :
-                                    <>
+                                    <div className='justify-end flex'>
+                                        <Tooltip title="Detalles" placement="top">
+                                            <Button size="small" endIcon={<RemoveRedEyeIcon/>}
+                                                    onClick={handleOpenModalDetail}></Button>
+                                        </Tooltip>
+
                                         {
                                             session?.user && session.user.role === 'ADMIN' &&
-                                            <div className='justify-end flex'>
+                                            <>
+
                                                 <Tooltip title="Eliminar" placement="top">
                                                     <Button size="small" endIcon={<DeleteIcon/>} color="error"
                                                             onClick={handleOpenModalDelete}></Button>
@@ -118,10 +125,9 @@ const CourseItem = (props: Props) => {
                                                     <Button size="small" endIcon={<EditIcon/>}
                                                             onClick={handleOpenModalEdit}></Button>
                                                 </Tooltip>
-
-                                            </div>
+                                            </>
                                         }
-                                    </>
+                                    </div>
                             }
 
                         </div>
@@ -135,16 +141,17 @@ const CourseItem = (props: Props) => {
                 onClose={handleCloseModalEdit}
                 aria-labelledby="fullscreen-upload-dialog"
             >
-                <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center mx-auto'>
+                <DialogTitle sx={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2"
+                                className='text-center justify-center mx-auto'>
                         Editar Curso
                     </Typography>
                     <IconButton edge="end" color="inherit" onClick={handleCloseModalEdit}>
-                        <Close />
+                        <Close/>
                     </IconButton>
                 </DialogTitle>
-                <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <EditCourseForm onClose={handleCloseModalEdit} mutate={props.mutate} course={course}/>
+                <DialogContent dividers sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <EditCourseForm onClose={handleCloseModalEdit} mutate={props.mutate} course={course} centers={props.centers}/>
                 </DialogContent>
             </Dialog>
 
@@ -170,6 +177,72 @@ const CourseItem = (props: Props) => {
                     <DeleteCourseForm onClose={handleCloseModalDelete} mutate={props.mutate} course={course}/>
                 </Box>
             </Modal>
+
+
+            <Modal
+                open={openModalDetail}
+                onClose={handleCloseModalDetail}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={styleDelete}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2"
+                                className='text-center justify-center'>
+                        Detalles del Curso
+                    </Typography>
+                    <div>
+                        {
+                            course.logo &&
+                            <div className='mx-auto justify-center text-center'>
+                                <Image src={course.logo} alt='logo' width={300} height={300}/>
+                            </div>
+                        }
+
+                        <div className='mt-2'>
+                            <p className="font-small text-black">
+                                <span className='font-bold'>Nombre:</span>{course.name}
+                            </p>
+                            <p className="font-small text-black">
+                                <span className='font-bold'>Claustro:</span>{course.cloister}
+                            </p>
+                            <p className="font-small text-black">
+                                <span
+                                    className='font-bold'>Estado:</span>{course.state === 'ACTIVE' ? 'Activo' : 'Inactivo'}
+                            </p>
+                            <p className="font-small text-black">
+                                <span className='font-bold'>Fecha Inicio:</span>{normalizeDate(course.dateStart)}
+                            </p>
+                            <p className="font-small text-black">
+                                <span className='font-bold'>Fecha Fin:</span>{normalizeDate(course.dateEnd)}
+                            </p>
+
+                            <p className="font-small text-black">
+                                <span className='font-bold'>Descripción:</span>
+                            </p>
+
+                            <TextareaAutosize
+                                aria-label="Descripcion"
+                                style={{width: '100%', padding: 5}}
+                                value={course.description}
+                                disabled
+                            />
+
+
+                            <div className='mx-auto justify-center text-center mt-5'>
+                                <Button variant="contained" endIcon={<CancelIcon/>} onClick={handleCloseModalDetail}
+                                        color='error'>
+                                    Cerrar
+                                </Button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </Box>
+            </Modal>
+
+
+
         </>
 
 

@@ -1,29 +1,24 @@
 'use client'
-import { useState, ChangeEvent } from 'react'
+import { useState } from 'react'
 import { useSnackbar } from 'notistack';
-import { Event } from '@/types/event'
+import { Course } from '@/types/course'
 import { GenericResponse } from '@/types/response'
-import { deleteEvent } from '@/lib/request/event'
+import { deleteCourse } from '@/lib/request/course'
 
 import CancelIcon from '@mui/icons-material/Cancel';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
-
 
 type Props = {
     mutate?: () => Promise<any>
     onClose?: () => void
-    event: Event
+    course: Course
 }
 
 
 
 export default function DeleteCourseForm(props: Props) {
-    const event = props.event
+    const course = props.course
     const { enqueueSnackbar } = useSnackbar()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -33,8 +28,7 @@ export default function DeleteCourseForm(props: Props) {
     const handleSubmit = async () => {
         setIsLoading(true)
 
-
-        const res: GenericResponse = await deleteEvent(event.id)
+        const res: GenericResponse = await deleteCourse(course.id)
 
         console.log('RES FRONT', res)
 
@@ -48,8 +42,6 @@ export default function DeleteCourseForm(props: Props) {
         }
         setIsLoading(false)
 
-
-        setIsLoading(false)
     };
 
 
@@ -61,7 +53,7 @@ export default function DeleteCourseForm(props: Props) {
             <form noValidate onSubmit={handleSubmit}>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error'>
+                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error' disabled={isLoading}>
                         Cancelar
                     </Button>
 
@@ -69,6 +61,7 @@ export default function DeleteCourseForm(props: Props) {
                         variant="contained"
                         endIcon={<DeleteForeverIcon />}
                         onClick={handleSubmit}
+                        disabled={isLoading}
                     >
                         Eliminar
                     </Button>

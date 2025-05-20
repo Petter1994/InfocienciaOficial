@@ -1,55 +1,68 @@
 'use client'
 import {useState, ChangeEvent} from 'react'
 import {useSnackbar} from 'notistack';
-import {EventPayload} from '@/types/event'
+import {CoursePayload} from '@/types/course'
 import {GenericResponse} from '@/types/response'
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import {createEvent} from '@/lib/request/event';
+import {createCourse} from '@/lib/request/course';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FullDrop from "@/components/DropZone/FullDrop"
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import dayjs, {Dayjs} from 'dayjs';
+import {SelectChangeEvent} from '@mui/material/Select';
+
+import {
+    TextField,
+    TextareaAutosize,
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    FormHelperText,
+    Select
+} from '@mui/material';
+import {Center} from "@/types/center";
 
 type FormData = {
     name: string;
-    area?: string;
+    cloister: string;
     description: string;
-    host: string;
+    state: 'ACTIVE' | 'INACTIVE';
     logo?: string
 }
 
 type FormErrors = {
     name?: string
-    area?: string
+    cloister?: string
     description?: string
-    host?: string
+    state?: string
     dateStart?: string
     dateEnd?: string
+    center?: string
 }
 
 const emptyFormError: FormErrors = {
     name: '',
-    area: '',
+    cloister: '',
     description: '',
-    host: '',
+    state: 'ACTIVE',
     dateStart: '',
-    dateEnd: ''
+    dateEnd: '',
+    center: '',
 }
 
 const emptyFormData: FormData = {
     name: '',
-    area: '',
+    cloister: '',
     description: '',
-    host: '',
+    state: 'ACTIVE',
 }
 
 type Props = {
     mutate?: () => Promise<any>
     onClose?: () => void
+    centers: Center[]
 }
 
 
@@ -59,6 +72,7 @@ export default function AddCourseForm(props: Props) {
     const [errors, setErrors] = useState<FormErrors>(emptyFormError)
     const [formData, setFormData] = useState<FormData>(emptyFormData);
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [selectedCenter, setSelectedCenter] = useState<string>("")
     const [uploadedUrl, setUploadedUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     const [file, setFile] = useState(null)
@@ -83,19 +97,15 @@ export default function AddCourseForm(props: Props) {
         const newErrors: FormErrors = {};
 
 
-        // if (formData.name === "") {
-        //     newErrors.name = 'Nombre requerido';
-        // }
-        //
-        // if (formData.area === "") {
-        //     newErrors.area = 'Area requerida';
-        // }
-        if (formData.description === "") {
-            newErrors.description = 'Descripción requerida';
+        if (formData.name === "") {
+            newErrors.name = 'Nombre requerido';
         }
 
-        if (formData.host === "") {
-            newErrors.host = 'Anfitrión requerido';
+        if (formData.cloister === "") {
+            newErrors.cloister = 'Claustro requerido';
+        }
+        if (formData.description === "") {
+            newErrors.description = 'Descripción requerida';
         }
 
         if (!dateStart) {
@@ -123,23 +133,29 @@ export default function AddCourseForm(props: Props) {
         setErrors(emptyFormError)
     }
 
+    const handleChangeCenter = (event: SelectChangeEvent) => {
+        const {value} = event.target;
+        setSelectedCenter(value)
+    }
+
 
     const handleSubmit = async () => {
         setIsLoading(true)
         if (validateForm()) {
-            const payload: EventPayload = {
+            const payload: CoursePayload = {
                 name: formData.name,
-                area: formData.area,
-                host: formData.host,
+                cloister: formData.cloister,
+                state: formData.state,
                 logo: uploadedUrl,
                 dateEnd: dateEnd ? dateEnd : new Date(),
-                description: formData.description,
-                dateStart: dateStart ? dateStart : new Date()
+                description: formData.description ? formData.description : '',
+                dateStart: dateStart ? dateStart : new Date(),
+                centerId: Number(selectedCenter)
             }
 
             console.log('Payload FRONT', payload);
             //@ts-ignore
-            const res: GenericResponse = await createEvent(payload)
+            const res: GenericResponse = await createCourse(payload)
 
             console.log('RES FRONT', res)
 
@@ -239,24 +255,36 @@ export default function AddCourseForm(props: Props) {
 
                     <TextField
                         required
-                        id="area"
-                        name="area"
-                        label="Area"
+                        id="cloister"
+                        name="cloister"
+                        label="Claustro"
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                        error={errors.area !== ""}
-                        helperText={errors.area}
+                        error={errors.cloister !== ""}
+                        helperText={errors.cloister}
                         onFocus={cleanErrors}
                     />
 
 
-                    <TextField
-                        required
-                        id="host"
-                        name="host"
-                        label="Anfitrión"
-                        onFocus={cleanErrors}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
-                    />
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Centro</InputLabel>
+                        <Select
+                            labelId="center"
+                            id="center"
+                            value={selectedCenter}
+                            label="Centro"
+                            onChange={handleChangeCenter}
+                            error={errors.center !== ""}
+                            onFocus={cleanErrors}
+                        >
+
+                            {
+                                props.centers.map((center, key) => (
+                                    <MenuItem key={key} value={center.id}>{center.name}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                        <FormHelperText>{errors.center}</FormHelperText>
+                    </FormControl>
 
                     <p>Descripción:</p>
                     <TextareaAutosize
