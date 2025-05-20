@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
-import { useSnackbar } from 'notistack';
-import { Course } from '@/types/course'
-import { GenericResponse } from '@/types/response'
-import { deleteCourse } from '@/lib/request/course'
+import {useState} from 'react'
+import {useSnackbar} from 'notistack';
+import {Course} from '@/types/course'
+import {GenericResponse} from '@/types/response'
+import {deleteCourse} from '@/lib/request/course'
 
 import CancelIcon from '@mui/icons-material/Cancel';
 import Button from '@mui/material/Button';
@@ -16,13 +16,11 @@ type Props = {
 }
 
 
-
 export default function DeleteCourseForm(props: Props) {
     const course = props.course
-    const { enqueueSnackbar } = useSnackbar()
+    const {enqueueSnackbar} = useSnackbar()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
 
 
     const handleSubmit = async () => {
@@ -33,10 +31,10 @@ export default function DeleteCourseForm(props: Props) {
         console.log('RES FRONT', res)
 
         if (res.status_name === 'error') {
-            enqueueSnackbar(res.error_title, { variant: 'error' })
+            enqueueSnackbar(res.error_title, {variant: 'error'})
 
         } else {
-            enqueueSnackbar(res.status_message, { variant: 'success' });
+            enqueueSnackbar(res.status_message, {variant: 'success'});
             props.mutate && await props.mutate()
             props.onClose && props.onClose()
         }
@@ -45,21 +43,19 @@ export default function DeleteCourseForm(props: Props) {
     };
 
 
-
-
-
     return (
         <>
             <form noValidate onSubmit={handleSubmit}>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon />} onClick={props.onClose} color='error' disabled={isLoading}>
+                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'
+                            disabled={isLoading}>
                         Cancelar
                     </Button>
 
                     <Button
                         variant="contained"
-                        endIcon={<DeleteForeverIcon />}
+                        endIcon={<DeleteForeverIcon/>}
                         onClick={handleSubmit}
                         disabled={isLoading}
                     >

@@ -1,14 +1,14 @@
 'use client'
-import { useState, ChangeEvent } from 'react'
-import { useSnackbar } from 'notistack';
-import { Center, CenterPayload } from '@/types/center'
-import { GenericResponse } from '@/types/response'
+import {useState, ChangeEvent} from 'react'
+import {useSnackbar} from 'notistack';
+import {Center, CenterPayload} from '@/types/center'
+import {GenericResponse} from '@/types/response'
 
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { editCenter } from '@/lib/request/center';
+import {editCenter} from '@/lib/request/center';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
 import FullDrop from "@/components/DropZone/FullDrop"
 
@@ -71,12 +71,10 @@ type Props = {
 }
 
 
-
 export default function EditCenterForm(props: Props) {
     const center = props.center
 
-    const { enqueueSnackbar } = useSnackbar()
-
+    const {enqueueSnackbar} = useSnackbar()
 
 
     const currentCenter: FormData = {
@@ -84,13 +82,13 @@ export default function EditCenterForm(props: Props) {
         area: center.area,
         logo: center.logo,
         results: center.results,
-        strategy:center.strategy,
+        strategy: center.strategy,
         investigationLine: center.investigationLine,
         discipline: center.discipline,
         mission: center.mission,
         projects: center.projects,
         vision: center.vision,
-        investigators:center.investigators,
+        investigators: center.investigators,
         investigatorsDoc: center.investigatorsDoc,
         investigatorsMaster: center.investigatorsMaster,
         services: center.services
@@ -103,10 +101,10 @@ export default function EditCenterForm(props: Props) {
     const [uploadedUrl, setUploadedUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     const [file, setFile] = useState(null)
-   
+
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
 
         setFormData({
             ...formData,
@@ -178,11 +176,10 @@ export default function EditCenterForm(props: Props) {
     }
 
 
-
     const handleSubmit = async () => {
         setIsLoading(true)
 
-        if (validateForm()){
+        if (validateForm()) {
             const payload: CenterPayload = {
                 name: formData.name,
                 area: formData.area,
@@ -201,15 +198,15 @@ export default function EditCenterForm(props: Props) {
             }
 
             console.log('Payload FRONT', payload);
-            const res: GenericResponse = await editCenter(payload , center.id)
+            const res: GenericResponse = await editCenter(payload, center.id)
 
             console.log('RES FRONT', res)
 
             if (res.status_name === 'error') {
-                enqueueSnackbar(res.error_title, { variant: 'error' })
+                enqueueSnackbar(res.error_title, {variant: 'error'})
 
             } else {
-                enqueueSnackbar(res.status_message, { variant: 'success' });
+                enqueueSnackbar(res.status_message, {variant: 'success'});
                 props.mutate && await props.mutate()
                 props.onClose && props.onClose()
             }
@@ -245,10 +242,6 @@ export default function EditCenterForm(props: Props) {
             setIsUploading(false);
         }
     };
-
-
-
-
 
 
     return (
@@ -448,11 +441,12 @@ export default function EditCenterForm(props: Props) {
                 </div>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'>
+                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'
+                            disabled={isLoading}>
                         Cancelar
                     </Button>
 
-                    <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleSubmit}>
+                    <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleSubmit} disabled={isLoading}>
                         Aceptar
                     </Button>
                 </div>

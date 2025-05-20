@@ -211,7 +211,7 @@ const Footer = () => {
                   <ul>
                     <li>
                       <a
-                          href="https://serviciosacademicos.fundacion.uh.cu/"
+                          href="https://www.facebook.com/universidaduhcuba"
                           className="mb-3 inline-block hover:text-primary"
                       >
                         Facebook
@@ -219,26 +219,10 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
-                          href="https://accesoabierto.uh.cu/s/biblioteca/page/inicio"
+                          href="https://www.instagram.com/udelahabana?igsh=NzRmNGdiZm0zb3Yx"
                           className="mb-3 inline-block hover:text-primary"
                       >
                         Imstagram
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                          href="https://fundacioninnova.uh.cu/"
-                          className="mb-3 inline-block hover:text-primary"
-                      >
-                        Cojon Pelu
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                          href="https://cursos.fundacion.uh.cu/"
-                          className="mb-3 inline-block hover:text-primary"
-                      >
-                        Otra mas
                       </a>
                     </li>
                   </ul>

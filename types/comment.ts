@@ -6,6 +6,7 @@ export type Comment = {
     postId: number;
     createdAt: Date;
     updatedAt: Date;
+    status: 'ACTIVE' | 'INACTIVE';
 }
 
 export type CommentPayload = {

@@ -1,8 +1,5 @@
-import { Comment, CommentPayload } from '@/types/comment'
-import { GenericResponse } from '@/types/response'
-import { FetchError } from '@/types/error'
-
-
+import {CommentPayload} from '@/types/comment'
+import {GenericResponse} from '@/types/response'
 
 
 export async function createComment(payload: CommentPayload, id: number) {
@@ -35,7 +32,6 @@ export async function editComment(payload: CommentPayload, id: number) {
         return response
     }
 }
-
 
 
 export async function deleteComment(id: number) {

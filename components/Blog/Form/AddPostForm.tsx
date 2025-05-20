@@ -49,7 +49,7 @@ const emptyFormError: FormErrors = {
     body: '',
     authors: '',
     center: '',
-    url:''
+    url: ''
 }
 
 const emptyFormData: FormData = {
@@ -154,7 +154,7 @@ export default function AddPostForm(props: Props) {
         //     newErrors.body = 'Cuerpo requerido';
         // }
 
-        if( formData.url && !isValidUrl(formData.url)){
+        if (formData.url && !isValidUrl(formData.url)) {
             newErrors.url = 'Url invalida';
         }
 
@@ -183,7 +183,7 @@ export default function AddPostForm(props: Props) {
                 date: new Date,
                 tags: formData.tags,
                 center: Number(selectedCenter),
-                coverImage: uploadedUrl!=="" ? uploadedUrl : defaultImg,
+                coverImage: uploadedUrl !== "" ? uploadedUrl : defaultImg,
                 description: formData.description ? formData.description : '',
                 url: formData.url ? formData.url : ''
             }
@@ -326,11 +326,12 @@ export default function AddPostForm(props: Props) {
                 </div>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'>
+                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'
+                            disabled={isLoading}>
                         Cancelar
                     </Button>
 
-                    <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleSubmit}>
+                    <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleSubmit} disabled={isLoading}>
                         Crear
                     </Button>
 

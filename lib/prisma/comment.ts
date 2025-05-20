@@ -20,9 +20,10 @@ export async function getAll() {
 export async function createComment(postID: number, comment: CommentPayload) {
     try {
         const commentData = {
+            name: comment.name,
+            email: comment.email,
             content: comment.content,
             postId: Number(postID),
-            authorId: Number(comment.authorId)
         };
 
         

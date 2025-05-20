@@ -97,9 +97,6 @@ export async function getById(id: number) {
             where: {id},
             include: {
                 comments: {
-                    include: {
-                        author: true  // Incluye el objeto User completo
-                    }
                 },
                 center: true
             }

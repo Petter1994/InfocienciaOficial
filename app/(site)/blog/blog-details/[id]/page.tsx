@@ -1,4 +1,3 @@
-
 import BlogItemDetailContent  from '@/components/Blog/BlogItemDetailContent'
 
 type Props = {
@@ -6,8 +5,7 @@ type Props = {
 }
 
 const  SingleBlogPage =  ({params}: Props) => {
-    const {id}  =  params
-   
+
   return (
     <>
       <BlogItemDetailContent postId={params.id}/>

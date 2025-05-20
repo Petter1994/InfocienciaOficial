@@ -34,10 +34,10 @@ export default function CommentList({ comments }: Props) {
 
                             <ListItemAvatar>
                                 <Avatar
-                                    alt={comment.author.name || 'Usuario'}
-                                    src={comment.author.avatar || ''} // Asume que tu modelo User tiene campo 'image'
-                                    sx={{ bgcolor: getRandomColor() }} // Función opcional para colores
-                                />
+                                    sx={{ bgcolor: getRandomColor() }}
+                                >
+                                    {comment.name.charAt(0)}
+                                </Avatar>
                             </ListItemAvatar>
 
 
@@ -49,7 +49,7 @@ export default function CommentList({ comments }: Props) {
                                             fontWeight="bold"
                                             sx={{ display: 'inline' }}
                                         >
-                                            {comment.author.name || 'Anónimo'}
+                                            {comment.email || 'Anónimo'}
                                         </Typography>
                                         <Typography
                                             component="span"

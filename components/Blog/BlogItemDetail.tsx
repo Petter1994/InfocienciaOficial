@@ -21,7 +21,9 @@ type Props = {
     mutate: () => Promise<any>
 }
 
-export default function BlogItemDetail({post, mutate}: Props) {
+export default function BlogItemDetail(props: Props) {
+    const post = props.post
+
     const {enqueueSnackbar} = useSnackbar()
     const {data: session, status} = useSession();
 
@@ -170,10 +172,9 @@ export default function BlogItemDetail({post, mutate}: Props) {
                                     </>
                                     :
                                     <>
-                                        <CommentBox mutate={mutate} post={post} user={session?.user}/>
+                                        <CommentBox mutate={props.mutate} post={post}/>
                                     </>
                             }
-
 
                         </div>
                     </div>
