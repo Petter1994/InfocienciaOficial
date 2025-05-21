@@ -37,6 +37,13 @@ export default function EventContent() {
 
     return (
         <>
+
+            <div className="shape shape-left ">
+                <img src="/images/shape/shape-6a.svg" alt=""/>
+            </div>
+            <div className="shape shape-right">
+                <img src="/images/shape/shape-7a.svg" alt=""/>
+            </div>
             {/* <!-- ===== Blog Grid Start ===== --> */}
             <section className="py-20 lg:py-25 xl:py-30">
                 <div className="mx-auto max-w-c-1315 px-4 md:px-8 xl:px-0">

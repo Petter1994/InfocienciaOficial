@@ -51,7 +51,12 @@ export default function BlogContent() {
     return (
         <>
 
-
+            <div className="shape shape-left ">
+                <img src="/images/shape/shape-2a.svg" alt=""/>
+            </div>
+            <div className="shape shape-right">
+                <img src="/images/shape/shape-5a.svg" alt=""/>
+            </div>
             {/* <!-- ===== Blog Grid Start ===== --> */}
             <section className="py-20 lg:py-25 xl:py-30">
                 <div className="mx-auto max-w-c-1315 px-4 md:px-8 xl:px-0">
@@ -75,7 +80,7 @@ export default function BlogContent() {
                                 input: {
                                     startAdornment: (
                                         <InputAdornment position="end">
-                                            <SearchIcon className='dark:text-white ' />
+                                            <SearchIcon className='dark:text-white '/>
                                         </InputAdornment>
                                     ),
                                 },
@@ -92,7 +97,8 @@ export default function BlogContent() {
                                 <>
                                     {
                                         session?.user && session.user.role === 'ADMIN' &&
-                                        <Button variant="outlined" startIcon={<AddCircleIcon />} className="dark:text-white justify-end" onClick={handleOpen}>
+                                        <Button variant="outlined" startIcon={<AddCircleIcon/>}
+                                                className="dark:text-white justify-end" onClick={handleOpen}>
                                             Adicionar
                                         </Button>
                                     }
@@ -101,20 +107,17 @@ export default function BlogContent() {
                     </div>
 
 
-
-
-
                     {
                         isLoading || error ?
                             <div className='w-full mx-auto justify-center items-center mt-5'>
-                                <LoadingFull />
+                                <LoadingFull/>
                             </div>
                             :
 
                             <div className="grid grid-cols-1 gap-7.5 md:grid-cols-2 lg:grid-cols-3 xl:gap-10">
                                 {
                                     filterPost.map((post, key) => (
-                                        <BlogItem key={key} post={post} mutate={mutate} centers={centers} />
+                                        <BlogItem key={key} post={post} mutate={mutate} centers={centers}/>
                                     ))
                                 }
                             </div>

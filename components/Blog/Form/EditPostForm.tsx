@@ -199,6 +199,12 @@ export default function EditPostForm(props: Props) {
     return (
         <>
             <form noValidate onSubmit={handleSubmit}>
+                <div className="shape shape-left ">
+                    <img src="/images/shape/shape-7a.svg" alt=""/>
+                </div>
+                <div className="shape shape-right">
+                    <img src="/images/shape/shape-2a.svg" alt=""/>
+                </div>
                 <div className="w-full grid cols-1 gap-4 mt-5 min-w-[800px]">
                     <TextField
                         required

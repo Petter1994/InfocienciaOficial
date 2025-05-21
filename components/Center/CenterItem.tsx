@@ -174,6 +174,7 @@ const CenterItem = (props: Props) => {
                                 className='text-center justify-center'>
                         Eliminar Centro
                     </Typography>
+                    <Image src={'images/svg/delete.svg'} alt={'image'} width={300} height={300} className='justify-center mx-auto text-center m-5'/>
                     <Typography id="modal-modal-title" variant="h6" component="h2"
                                 className='text-center justify-center text-danger color-danger'>
                         Esta Accion no es REVERSIBLE

@@ -169,7 +169,7 @@ const BlogItem = (props: Props) => {
       >
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center mx-auto'>
-            Editar Articulo
+            Editar Artículo
           </Typography>
           <IconButton edge="end" color="inherit" onClick={handleCloseModalEdit}>
             <Close />
@@ -189,10 +189,11 @@ const BlogItem = (props: Props) => {
       >
         <Box sx={styleDelete}>
           <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center'>
-            Eliminar Articulo
+            Eliminar Artículo
           </Typography>
+          <Image src={'images/svg/delete.svg'} alt={'image'} width={300} height={300} className='justify-center mx-auto text-center m-5'/>
           <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center justify-center text-danger color-danger'>
-            Esta Accion no es REVERSIBLE
+            Esta Acción no es REVERSIBLE
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 

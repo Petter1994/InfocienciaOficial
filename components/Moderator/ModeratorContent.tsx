@@ -30,6 +30,12 @@ export default function ModeratorContent() {
 
     return (
         <>
+            <div className="shape shape-left ">
+                <img src="/images/shape/shape-7a.svg" alt=""/>
+            </div>
+            <div className="shape shape-right">
+                <img src="/images/shape/shape-2a.svg" alt=""/>
+            </div>
 
 
             {/* <!-- ===== Blog Grid Start ===== --> */}
