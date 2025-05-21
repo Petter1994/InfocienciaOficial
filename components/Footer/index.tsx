@@ -1,6 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import {
+  Button,IconButton
+} from '@mui/material';
 
 const Footer = () => {
   return (
@@ -186,47 +191,47 @@ const Footer = () => {
                 </motion.div>
 
 
-                <motion.div
-                    variants={{
-                      hidden: {
-                        opacity: 0,
-                        y: -20,
-                      },
+                {/*<motion.div*/}
+                {/*    variants={{*/}
+                {/*      hidden: {*/}
+                {/*        opacity: 0,*/}
+                {/*        y: -20,*/}
+                {/*      },*/}
 
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                      },
-                    }}
-                    initial="hidden"
-                    whileInView="visible"
-                    transition={{ duration: 1, delay: 0.1 }}
-                    viewport={{ once: true }}
-                    className="animate_top"
-                >
-                  <h4 className="mb-9 text-itemtitle2 font-medium text-black dark:text-white">
-                    Nuestras Redes Sociales
-                  </h4>
+                {/*      visible: {*/}
+                {/*        opacity: 1,*/}
+                {/*        y: 0,*/}
+                {/*      },*/}
+                {/*    }}*/}
+                {/*    initial="hidden"*/}
+                {/*    whileInView="visible"*/}
+                {/*    transition={{ duration: 1, delay: 0.1 }}*/}
+                {/*    viewport={{ once: true }}*/}
+                {/*    className="animate_top"*/}
+                {/*>*/}
+                {/*  <h4 className="mb-9 text-itemtitle2 font-medium text-black dark:text-white">*/}
+                {/*    Nuestras Redes Sociales*/}
+                {/*  </h4>*/}
 
-                  <ul>
-                    <li>
-                      <a
-                          href="https://www.facebook.com/universidaduhcuba"
-                          className="mb-3 inline-block hover:text-primary"
-                      >
-                        Facebook
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                          href="https://www.instagram.com/udelahabana?igsh=NzRmNGdiZm0zb3Yx"
-                          className="mb-3 inline-block hover:text-primary"
-                      >
-                        Instagram
-                      </a>
-                    </li>
-                  </ul>
-                </motion.div>
+                {/*  <ul>*/}
+                {/*    <li>*/}
+                {/*      <a*/}
+                {/*          href="https://www.facebook.com/universidaduhcuba"*/}
+                {/*          className="mb-3 inline-block hover:text-primary"*/}
+                {/*      >*/}
+                {/*        <FacebookIcon/>*/}
+                {/*      </a>*/}
+                {/*    </li>*/}
+                {/*    <li>*/}
+                {/*      <a*/}
+                {/*          href="https://www.instagram.com/udelahabana?igsh=NzRmNGdiZm0zb3Yx"*/}
+                {/*          className="mb-3 inline-block hover:text-primary"*/}
+                {/*      >*/}
+                {/*        Instagram*/}
+                {/*      </a>*/}
+                {/*    </li>*/}
+                {/*  </ul>*/}
+                {/*</motion.div>*/}
 
 
               </div>
@@ -311,27 +316,19 @@ const Footer = () => {
             >
               <ul className="flex items-center gap-5">
                 <li>
-                  <a href="#" aria-label="social icon">
-                    <svg
-                      className="fill-[#D1D8E0] transition-all duration-300 hover:fill-primary"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_48_1499)">
-                        <path
-                          d="M14 13.5H16.5L17.5 9.5H14V7.5C14 6.47 14 5.5 16 5.5H17.5V2.14C17.174 2.097 15.943 2 14.643 2C11.928 2 10 3.657 10 6.7V9.5H7V13.5H10V22H14V13.5Z"
-                          fill=""
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_48_1499">
-                          <rect width="24" height="24" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
+                  <a
+                      href="https://www.facebook.com/universidaduhcuba"
+                      className="mb-3 inline-block hover:text-primary"
+                  >
+                    <FacebookIcon/>
+                  </a>
+                </li>
+                <li>
+                  <a
+                      href="https://www.instagram.com/udelahabana?igsh=NzRmNGdiZm0zb3Yx"
+                      className="mb-3 inline-block hover:text-primary"
+                  >
+                    <InstagramIcon/>
                   </a>
                 </li>
               

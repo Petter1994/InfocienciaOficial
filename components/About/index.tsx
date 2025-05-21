@@ -105,12 +105,12 @@ const About = () => {
 
 
               <div className="mt-10 mx-auto justify-center">
-                    <a href="/center">
+                    <a href="/blog">
                       <button
                           aria-label="get started button"
                           className="mx-auto justify-center rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
                       >
-                        Ver Centros
+                        Ver Artículos
                       </button>
                     </a>
               </div>
@@ -154,22 +154,14 @@ const About = () => {
               <p>
               "Científicos: porque ‘Googlearlo’ no siempre es suficiente."
               </p>
-              <div>
-                <a
-                  href="/center"
-                  className="group mt-7.5 inline-flex items-center gap-2.5 text-black hover:text-primary dark:text-white dark:hover:text-primary"
-                >
-                  <span className="duration-300 group-hover:pr-2">
-                    Conoce Más
-                  </span>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="currentColor"
+              <div className="mt-10 mx-auto justify-center">
+                <a href="/center">
+                  <button
+                      aria-label="get started button"
+                      className="mx-auto justify-center rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
                   >
-                    <path d="M10.4767 6.16701L6.00668 1.69701L7.18501 0.518677L13.6667 7.00034L7.18501 13.482L6.00668 12.3037L10.4767 7.83368H0.333344V6.16701H10.4767Z" />
-                  </svg>
+                    Ver Centros
+                  </button>
                 </a>
               </div>
             </motion.div>
