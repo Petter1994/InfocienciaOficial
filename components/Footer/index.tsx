@@ -222,7 +222,7 @@ const Footer = () => {
                           href="https://www.instagram.com/udelahabana?igsh=NzRmNGdiZm0zb3Yx"
                           className="mb-3 inline-block hover:text-primary"
                       >
-                        Imstagram
+                        Instagram
                       </a>
                     </li>
                   </ul>

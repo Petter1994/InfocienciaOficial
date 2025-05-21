@@ -99,7 +99,7 @@ export default function AddCommentForm(props: Props) {
                 name: formData.name,
                 postId: props.postId,
                 email: formData.email,
-                content: formData.email,
+                content: formData.content,
             }
 
             console.log('Payload FRONT', payload);

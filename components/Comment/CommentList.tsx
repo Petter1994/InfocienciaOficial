@@ -19,7 +19,7 @@ type Props = {
 }
 
 export default function CommentList({ comments }: Props) {
-
+console.log('COme', comments)
 
     return (
         <Paper elevation={0} sx={{ mt: 4, p: 2, bgcolor: 'background.paper' }}>

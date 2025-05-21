@@ -1,6 +1,6 @@
 import { Menu } from "@/types/menu";
 
-const menuData: Menu[] = [
+export const menuData: Menu[] = [
   {
     id: 1,
     title: "Inicio",
@@ -33,4 +33,43 @@ const menuData: Menu[] = [
   },
 ];
 
-export default menuData;
+
+export const menuAdmin: Menu[] = [
+  {
+    id: 1,
+    title: "Inicio",
+    newTab: false,
+    path: "/",
+  },
+  {
+    id: 2,
+    title: "Artículos",
+    newTab: false,
+    path: "/blog",
+  },
+  {
+    id: 3,
+    title: "Centros",
+    newTab: false,
+    path: "/center",
+  },
+  {
+    id: 4,
+    title: "Eventos",
+    newTab: false,
+    path: "/event",
+  },
+  {
+    id: 4,
+    title: "Cursos",
+    newTab: false,
+    path: "/course",
+  },
+    {
+    id: 5,
+    title: "Comentarios",
+    newTab: false,
+    path: "/moderator",
+  },
+];
+

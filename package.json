@@ -15,6 +15,7 @@
     "@mui/icons-material": "^7.0.0",
     "@mui/material": "^7.0.0",
     "@mui/styled-engine-sc": "^7.0.0",
+    "@mui/x-data-grid": "^8.3.1",
     "@mui/x-date-pickers": "^8.2.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@prisma/adapter-pg": "^6.5.0",

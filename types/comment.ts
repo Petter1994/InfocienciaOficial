@@ -15,3 +15,14 @@ export type CommentPayload = {
     name: string,
     email: string,
 }
+
+export const emptyComment : Comment = {
+    id: 99999999,
+    content: '',
+    name: '',
+    email: '',
+    postId: 999999,
+    createdAt: new Date,
+    updatedAt: new Date,
+    status:'INACTIVE'
+}
