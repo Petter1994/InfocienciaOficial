@@ -70,5 +70,20 @@ export async function deleteComment(id: number) {
     return response
 }
 
+export async function activeComment(id: number) {
+        const res: Response = await fetch(`/api/comment/${id}/active`, {
+            method: 'POST',
+        });
 
+        const response: GenericResponse = await res.json();
+        return response
 
+}
+
+export async function inactiveComment(id: number) {
+    const res: Response = await fetch(`/api/comment/${id}/inactive`, {
+        method: 'POST',
+    });
+    const response: GenericResponse = await res.json();
+    return response
+}

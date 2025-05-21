@@ -1,7 +1,5 @@
 'use client'
 import { useState } from 'react'
-import { useSession } from "next-auth/react";
-import BlogItem from "@/components/Blog/BlogItem";
 import useSWR from 'swr'
 import { fetchAllComment, fetchAllCommentUrl } from '@/lib/request/comment'
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,16 +16,11 @@ import {
 
 
 export default function ModeratorContent() {
-    const { data: session, status } = useSession();
 
     const { data, isLoading, error, mutate } = useSWR(fetchAllCommentUrl, fetchAllComment)
     const comments = data ? data.result as Comment[] : [emptyComment]
 
-
     const [searchTerm, setSearchTerm] = useState<string>('');
-
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     let filterComments = comments
     if (searchTerm !== "") {
@@ -83,7 +76,7 @@ export default function ModeratorContent() {
                             </div>
                             :
                             <div className='mt-5'>
-                                <CommentTable comments={filterComments} />
+                                <CommentTable comments={filterComments} mutate={mutate}/>
                             </div>
 
                     }

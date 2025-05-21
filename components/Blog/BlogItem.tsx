@@ -28,18 +28,6 @@ import {
 import {Close} from "@mui/icons-material";
 
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 1024,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 const styleDelete = {
   position: 'absolute',
   top: '50%',
@@ -61,8 +49,6 @@ type Props = {
 const BlogItem = (props: Props) => {
   const { data: session, status } = useSession();
   const post = props.post
-
-  console.log('Post', post)
 
 
   const [openModalEdit, setOpenModalEdit] = useState(false);

@@ -66,9 +66,7 @@ export async function getById(id: number) {
 
         const commentFromDb: Comment | null = await prisma.comment.findUnique(
             {
-                where: { id }, include: {
-                    author: true,
-                }
+                where: { id },
             },
         )
         if (!commentFromDb) {
@@ -99,3 +97,39 @@ export async function deleteById(id: number) {
     }
 }
 
+export async function activeComment(id: number) {
+    try {
+
+        const updateData: Prisma.CommentUpdateInput = {
+            state: 'ACTIVE',
+        }
+
+        const updatedComment = await prisma.comment.update({
+            where: { id },
+            data: updateData,
+        })
+
+        return { comment: updatedComment, ok: true }
+    } catch (error: any) {
+        return { error, message: error.message, ok: false }
+    }
+}
+
+
+export async function inactiveComment(id: number) {
+    try {
+
+        const updateData: Prisma.CommentUpdateInput = {
+            state: 'INACTIVE',
+        }
+
+        const updatedComment = await prisma.comment.update({
+            where: { id },
+            data: updateData,
+        })
+
+        return { comment: updatedComment, ok: true }
+    } catch (error: any) {
+        return { error, message: error.message, ok: false }
+    }
+}
