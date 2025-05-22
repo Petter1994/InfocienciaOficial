@@ -228,8 +228,8 @@ const Header = () => {
                                     {/*<ThemeToggler />*/}
 
 
-                                    <UserMenu/>
                                     <SearchBox/>
+                                    <UserMenu/>
 
                                 </div>
                             </div>
