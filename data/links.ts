@@ -21,5 +21,5 @@ export const Links: Link[] = [
 ];
 
 export const LinksSearch: string[] = [
-    '','artículos', 'centros', 'eventos', 'cursos'
+    '','artículos', 'centros', 'eventos', 'cursos','acerca','funcionalidades','preguntas frecuentes'
 ]

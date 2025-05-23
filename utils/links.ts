@@ -8,6 +8,12 @@ export const getRoutes = (link: string) => {
             return 'event';
         case 'cursos':
             return 'course';
+        case 'acerca':
+            return '#about';
+        case 'funcionalidades':
+            return '#features';
+        case 'preguntas frecuentes':
+            return '#faq';
         default:
             return '/'
     }
