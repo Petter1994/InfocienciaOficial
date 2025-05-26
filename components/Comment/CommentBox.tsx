@@ -28,6 +28,7 @@ const style = {
 
 export default function CommentBox(props: Props) {
     const post = props.post
+    console.log(post)
     const acceptedComment = post.comments.filter(post=>post.status === 'ACTIVE')
 
     const [openModalComment, setOpenModalComment] = useState(false);

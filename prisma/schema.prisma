@@ -61,7 +61,7 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   name      String
   email     String
-  state     State    @default(INACTIVE)
+  status     State    @default(INACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

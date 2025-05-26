@@ -101,7 +101,7 @@ export async function activeComment(id: number) {
     try {
 
         const updateData: Prisma.CommentUpdateInput = {
-            state: 'ACTIVE',
+            status: 'ACTIVE',
         }
 
         const updatedComment = await prisma.comment.update({
@@ -120,7 +120,7 @@ export async function inactiveComment(id: number) {
     try {
 
         const updateData: Prisma.CommentUpdateInput = {
-            state: 'INACTIVE',
+            status: 'INACTIVE',
         }
 
         const updatedComment = await prisma.comment.update({

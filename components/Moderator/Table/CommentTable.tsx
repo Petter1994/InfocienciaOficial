@@ -86,7 +86,7 @@ export default function CommentTable(props: Props) {
             valueFormatter: (params) => normalizeDate(params)
         },
         {
-            field: 'state',
+            field: 'status',
             headerName: 'Estado',
             width: 120,
             valueFormatter: (params) => getState(params)
