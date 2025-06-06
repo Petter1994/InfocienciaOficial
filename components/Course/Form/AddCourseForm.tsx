@@ -23,6 +23,7 @@ import {
     Select
 } from '@mui/material';
 import {Center} from "@/types/center";
+import {normalizeDate} from "@/utils/date";
 
 type FormData = {
     name: string;
@@ -76,8 +77,8 @@ export default function AddCourseForm(props: Props) {
     const [uploadedUrl, setUploadedUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     const [file, setFile] = useState(null)
-    const [dateStart, setDateStart] = useState<Dayjs | null>(dayjs());
-    const [dateEnd, setDateEnd] = useState<Dayjs | null>(dayjs());
+    const [dateStart, setDateStart] = useState<Dayjs | null>(dayjs(new Date()));
+    const [dateEnd, setDateEnd] =useState<Dayjs | null>(dayjs(new Date()));
 
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -114,8 +115,8 @@ export default function AddCourseForm(props: Props) {
         if (!dateEnd) {
             newErrors.dateEnd = 'Fecha de Fin requerida';
         }
-        if (dateStart && dateEnd && dateStart !== dateEnd) {
-            if (dateStart > dateEnd || dateEnd < dateStart) {
+        if (dateStart && dateEnd && dayjs(dateStart) !== dayjs(dateEnd)) {
+            if (dayjs(dateStart) > dayjs(dateEnd) || dayjs(dateEnd) < dayjs(dateStart)) {
                 newErrors.dateStart = 'Rango de fecha incorrecto';
                 newErrors.dateEnd = 'Rango de fecha incorrecto';
             }
@@ -142,22 +143,20 @@ export default function AddCourseForm(props: Props) {
     const handleSubmit = async () => {
         setIsLoading(true)
         if (validateForm()) {
+
             const payload: CoursePayload = {
                 name: formData.name,
                 cloister: formData.cloister,
                 state: formData.state,
                 logo: uploadedUrl,
-                dateEnd: dateEnd ? dateEnd : new Date(),
                 description: formData.description ? formData.description : '',
-                dateStart: dateStart ? dateStart : new Date(),
+                dateEnd: dateEnd?.toDate() ,
+                dateStart: dateStart?.toDate() ,
                 centerId: Number(selectedCenter)
             }
 
-            console.log('Payload FRONT', payload);
             //@ts-ignore
             const res: GenericResponse = await createCourse(payload)
-
-            console.log('RES FRONT', res)
 
             if (res.status_name === 'error') {
                 enqueueSnackbar(res.error_title, {variant: 'error'})
@@ -201,6 +200,10 @@ export default function AddCourseForm(props: Props) {
             setIsUploading(false);
         }
     };
+
+    const handleDateStartChange = ()=>{
+
+    }
 
 
     return (
@@ -247,13 +250,12 @@ export default function AddCourseForm(props: Props) {
                         )}
                     </div>
 
-
                     <TextField
                         required
                         id="name"
                         name="name"
                         label="Nombre"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         error={errors.name !== ""}
                         helperText={errors.name}
                         onFocus={cleanErrors}
@@ -264,7 +266,7 @@ export default function AddCourseForm(props: Props) {
                         id="cloister"
                         name="cloister"
                         label="Claustro"
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                         error={errors.cloister !== ""}
                         helperText={errors.cloister}
                         onFocus={cleanErrors}
@@ -307,6 +309,7 @@ export default function AddCourseForm(props: Props) {
 
                     <div className='grid grid-cols-2 gap-5'>
                         <DatePicker
+                            format="DD-MM-YYYY"
                             label="Fecha de Inicio"
                             value={dateStart}
                             onChange={(newValue) => setDateStart(newValue)}
@@ -318,8 +321,9 @@ export default function AddCourseForm(props: Props) {
                         />
 
                         <DatePicker
+                            format="DD-MM-YYYY"
                             label="Fecha de Fin"
-                            value={dateEnd}
+                            value={dayjs(dateEnd)}
                             onChange={(newValue) => setDateEnd(newValue)}
                             slotProps={{
                                 textField: {
@@ -332,7 +336,8 @@ export default function AddCourseForm(props: Props) {
                 </div>
 
                 <div className='flex justify-center align-middle text-center gap-5 mt-5'>
-                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error' disabled={isLoading}>
+                    <Button variant="contained" endIcon={<CancelIcon/>} onClick={props.onClose} color='error'
+                            disabled={isLoading}>
                         Cancelar
                     </Button>
 

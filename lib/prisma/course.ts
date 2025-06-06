@@ -26,14 +26,15 @@ export async function createCourse(course: CoursePayload) {
 
 
         // 2. Preparar datos (con valores por defecto)
-        const courseData: Prisma.EventCreateInput = {
+        const courseData: Prisma.CourseCreateInput = {
             name: course.name.trim(),
-            cloister: course.cloister,
             logo: course.logo?.trim() || null,
-            date: course.date,
-            state: course.state,
+            dateStart: course.dateStart,
+            dateEnd: course.dateEnd,
             description: course.description,
-            centerId: course.centerId
+            state: course.state,
+            cloister: course.cloister,
+            centerId: course.centerId,
         };
 
         // 3. Crear el curso

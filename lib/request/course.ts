@@ -25,7 +25,6 @@ export const fetchAllCourse = async (url: string) => {
 
 
 export async function createCourse(payload: CoursePayload) {
-    console.log('REQUEST PAY', payload)
     if (payload) {
         const res: Response = await fetch(`/api/course`, {
             method: 'POST',
