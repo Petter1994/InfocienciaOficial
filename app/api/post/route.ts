@@ -13,16 +13,16 @@ export async function GET() {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "posts fetched",
+                status_message: "Artículos cargados",
                 result: result.post,
             }, {status: 200}
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "post fetching failed",
+            status_message: "Carga de Artículos fallida",
             result: result.error,
             errors: result.message,
-            error_title: "post fetching failed",
+            error_title: "Carga de Artículos fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -30,10 +30,10 @@ export async function GET() {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "post fetching failed",
+            status_message: "Carga de Artículos fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "post fetching failed",
+            error_title: "Carga de Artículos fallida",
         }, {
             status: 500,
         });
@@ -50,16 +50,16 @@ export async function POST(request: NextRequest) {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "post created",
+                status_message: "Artículo creado",
                 result: result.post,
             }, {status: 200}
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "post creation failed",
+            status_message: "Creación de Artículo fallida",
             result: result.error,
             errors: result.message,
-            error_title: "post creation failed",
+            error_title: "Creación de Artículo fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -67,10 +67,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "post creation failed",
+            status_message: "Creación de Artículo fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "post creation failed",
+            error_title: "Creación de Artículo fallida",
         }, {
             status: 500,
         });

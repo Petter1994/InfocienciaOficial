@@ -13,16 +13,16 @@ export async function GET(request: NextRequest, context: { params: { id: string 
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "course fetched",
+                status_message: "Curso cargado",
                 result: result.course,
             }, { status: 200 }
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "course fetching failed",
+            status_message: "Carga de Curso fallida",
             result: result.error,
             errors: result.message,
-            error_title: "course fetching failed",
+            error_title: "Carga de Curso fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -30,10 +30,10 @@ export async function GET(request: NextRequest, context: { params: { id: string 
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "course fetching failed",
+            status_message: "Carga de Curso fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "course fetching failed",
+            error_title: "Carga de Curso fallida",
         }, {
             status: 500,
         });

@@ -13,16 +13,16 @@ export async function GET() {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "courses fetched",
+                status_message: "Cursos cargados",
                 result: result.event,
             }, {status: 200}
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "courses fetching failed",
+            status_message: "Carga de Curso fallida",
             result: result.error,
             errors: result.message,
-            error_title: "courses fetching failed",
+            error_title: "Carga de Curso fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -30,10 +30,10 @@ export async function GET() {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "courses fetching failed",
+            status_message: "Carga de Curso fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "courses fetching failed",
+            error_title: "Carga de Curso fallida",
         }, {
             status: 500,
         });
@@ -51,16 +51,16 @@ export async function POST(request: NextRequest) {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "course created",
+                status_message: "Curso creado",
                 result: result.course,
             }, {status: 200}
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "course creation failed",
+            status_message: "Creacion de Curso fallida",
             result: result.error,
             errors: result.message,
-            error_title: "course creation failed",
+            error_title: "Creacion de Curso fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -68,10 +68,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "course creation failed",
+            status_message:"Creacion de Curso fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "course creation failed",
+            error_title:"Creacion de Curso fallida",
         }, {
             status: 500,
         });

@@ -14,16 +14,16 @@ export async function POST(request: NextRequest, {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "comment inactive",
+                status_message: "Comentario inactivo",
                 result: result.comment,
             }, { status: 200 }
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "comment inactive",
+            status_message: "Inactivación de Comentario fallida",
             result: result.error,
             errors: result.message,
-            error_title: "comment inactive failed",
+            error_title:"Inactivación de Comentario fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -31,10 +31,10 @@ export async function POST(request: NextRequest, {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "comment inactive failed",
+            status_message: "Inactivación de Comentario fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "comment inactive failed",
+            error_title: "Inactivación de Comentario fallida",
         }, {
             status: 500,
         });

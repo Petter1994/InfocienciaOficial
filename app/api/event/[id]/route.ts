@@ -13,16 +13,16 @@ export async function GET(request: NextRequest, context: { params: { id: string 
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "event fetched",
+                status_message: "Evento cargado",
                 result: result.event,
             }, { status: 200 }
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "event fetching failed",
+            status_message: "Carga de Evento fallida",
             result: result.error,
             errors: result.message,
-            error_title: "event fetching failed",
+            error_title: "Carga de Evento fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -30,10 +30,10 @@ export async function GET(request: NextRequest, context: { params: { id: string 
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "event fetching failed",
+            status_message: "Carga de Evento fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "event fetching failed",
+            error_title: "Carga de Evento fallida",
         }, {
             status: 500,
         });
@@ -55,16 +55,16 @@ export async function PUT(request: NextRequest, {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "event edited",
+                status_message: "Evento editado",
                 result: result.event,
             }, { status: 200 }
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "event edit failed",
+            status_message: "Edición de Evento fallida",
             result: result.error,
             errors: result.message,
-            error_title: "event edit failed",
+            error_title: "Edición de Evento fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -72,10 +72,10 @@ export async function PUT(request: NextRequest, {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "event edit failed",
+            status_message: "Edición de Evento fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "event edit failed",
+            error_title: "Edición de Evento fallida",
         }, {
             status: 500,
         });
@@ -95,16 +95,16 @@ export async function DELETE(request: NextRequest, {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "event deleted",
+                status_message: "Evento borrado",
                 result: result.event,
             }, { status: 200 }
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "event deleted failed",
+            status_message: "Borrado de Evento fallido",
             result: result.error,
             errors: result.message,
-            error_title: "event deleted failed",
+            error_title: "Borrado de Evento fallido",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -112,10 +112,10 @@ export async function DELETE(request: NextRequest, {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "event deleted failed",
+            status_message: "Borrado de Evento fallido",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "event deleted failed",
+            error_title: "Borrado de Evento fallido",
         }, {
             status: 500,
         });

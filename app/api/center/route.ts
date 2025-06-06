@@ -13,16 +13,16 @@ export async function GET() {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "centers fetched",
+                status_message: "Centros cargados",
                 result: result.center,
             }, {status: 200}
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "centers fetching failed",
+            status_message: "Carga de Centros fallida",
             result: result.error,
             errors: result.message,
-            error_title: "centers fetching failed",
+            error_title: "Carga de Centros fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -30,10 +30,10 @@ export async function GET() {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "centers fetching failed",
+            status_message: "Carga de Centros fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "centers fetching failed",
+            error_title: "Carga de Centros fallida",
         }, {
             status: 500,
         });
@@ -51,16 +51,16 @@ export async function POST(request: NextRequest) {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "center created",
+                status_message: "Centro creado",
                 result: result.center,
             }, {status: 200}
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "center creation failed",
+            status_message: "Creación de Centro fallida",
             result: result.error,
             errors: result.message,
-            error_title: "center creation failed",
+            error_title: "Creación de Centro fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -68,10 +68,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "center creation failed",
+            status_message: "Creación de Centro fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "center creation failed",
+            error_title: "Creación de Centro fallida",
         }, {
             status: 500,
         });

@@ -18,16 +18,16 @@ export async function PUT(request: NextRequest, {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "user edited",
+                status_message: "Usuario editado",
                 result: result.user,
             }, { status: 200 }
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "user edit failed",
+            status_message: "Edición de Usurio fallida",
             result: result.error,
             errors: result.message,
-            error_title: "user edit failed",
+            error_title: "Edición de Usurio fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -35,10 +35,10 @@ export async function PUT(request: NextRequest, {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "user edit failed",
+            status_message: "Edición de Usurio fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "user edit failed",
+            error_title: "Edición de Usurio fallida",
         }, {
             status: 500,
         });

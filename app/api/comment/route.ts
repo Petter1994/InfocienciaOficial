@@ -12,16 +12,16 @@ export async function GET() {
             {
                 status_name: "success",
                 status_code: 200,
-                status_message: "comments fetched",
+                status_message: "Comentarios cargados",
                 result: result.comments,
             }, {status: 200}
         ) : NextResponse.json({
             status_name: "error",
             status_code: result.error.code,
-            status_message: "comments fetching failed",
+            status_message: "Carga de Comentarios fallida",
             result: result.error,
             errors: result.message,
-            error_title: "comments fetching failed",
+            error_title:"Carga de Comentarios fallida",
         }, {
             status: result.error.code == 404 ? 404 : 500
         });
@@ -29,10 +29,10 @@ export async function GET() {
         return NextResponse.json({
             status_name: "error",
             status_code: 500,
-            status_message: "comments fetching failed",
+            status_message: "Carga de Comentarios fallida",
             result: `${e}`,
             errors: `${e}`,
-            error_title: "comments fetching failed",
+            error_title: "Carga de Comentarios fallida",
         }, {
             status: 500,
         });
